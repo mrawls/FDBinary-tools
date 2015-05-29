@@ -14,53 +14,54 @@ This program DOES NOT prompt for input.
 (You need to change hard-wired filenames, labels, etc. below)
 '''
 
-# Files to use
-#fitsfile = 'fullspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
-#fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits'
+### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
+#fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
+#fdbinarymodel = '../../FDBinary/9246715/trial7/allchunks.mod'
+#outfile = '../../FDBinary/9246715/trial7/fdbinary_out.txt'
 fitsfile = '../../RG_spectra/APOGEE/KIC9246715_obs1.fits'
-fdbinarymodel = '../../FDBinary/9246715/apogee_trial1/allchunks.mod'
-outfile = '../../FDBinary/9246715/apogee_trial1/fdbinary_out.txt'
-gamma = 0 # unless you want to shift your RVs for some reason?
-c = 2.99792e5 # km/sec
-# The new wavelength scale for the spectra you are writing out
-wavestart = 15145 #5320 #5402.6
-dwave = 0.0455
-wavelen = 39670 # 15145--16950 A #39560 # 5320.0--7119.9 A  #29800 # 5402.6--6748.45 A
+fdbinarymodel = '../../FDBinary/9246715/apogee_trial2/allchunks.mod'
+outfile = '../../FDBinary/9246715/apogee_trial2/fdbinary_out.txt'
+isAPOGEE = True
+wavestart = 15145 #5320	# starting wavelength in Angstroms
+wavestop = 16950 #7120	# ending wavelength in Angstroms
 # New FITS files that will be created
-outfits1 = '../../FDBinary/9246715/FDBinary_star1_apgetrial1.fits'
-outfits2 = '../../FDBinary/9246715/FDBinary_star2_apgetrial1.fits'
+#outfits1 = '../../FDBinary/9246715/FDBinary_star1_trial7.fits'
+#outfits2 = '../../FDBinary/9246715/FDBinary_star2_trial7.fits'
+outfits1 = '../../FDBinary/9246715/FDBinary_star1_apgetrial2.fits'
+outfits2 = '../../FDBinary/9246715/FDBinary_star2_apgetrial2.fits'
+### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
 
 # Plot parameters
+gamma = 0 # unless you want to shift your RVs for some reason?
+c = 2.99792e5 # km/sec
 red = '#e34a33'
 yel = '#fdbb84'
 fig, axMain = plt.subplots(figsize=[20, 9])
 #axMain = plt.axes(fig, [5400, 6750, -0.5, 3.2])
 #plt.axis([5900, 6700, -0.6, 3.2]) # this looks best even though it's not the whole thing
 #plt.axis([5320, 7120, -0.45, 3.2])
-plt.axis([15000, 17000, -0.6, 3.2]) # good for APOGEE
+#plt.axis([15000, 17000, -0.6, 3.2]) # good for APOGEE
 plt.xlabel('Wavelength ($\mathrm{\AA}$)', size=24)
 plt.ylabel('Scaled flux', size=24)
 
 # Read in 'raw' comparison spectrum with both stellar components
+# Also define the original wavelength scale, fitswave
 hdu = fits.open(fitsfile)
-#spec = hdu[0].data
-spec = hdu[1].data ### APOGEE
-spec = spec.flatten() ### APOGEE
-spec = spec[::-1] ### APOGEE
-spec = spec / np.median(spec)
-
 head = hdu[0].header
-datetime = head['date-obs']
-
-# Define the original wavelength scale
-fitswave = hdu[4].data ### APOGEE
-fitswave = fitswave.flatten() ### APOGEE
-fitswave = fitswave[::-1] ### APOGEE
-#headerdwave = head['cdelt1']
-#headerwavestart = head['crval1']
-#headerwavestop = headerwavestart + headerdwave*len(spec)
-#fitswave = np.arange(headerwavestart, headerwavestop, headerdwave)
-
+if isAPOGEE == True:
+	spec = hdu[1].data ### APOGEE
+	spec = spec.flatten() ### APOGEE
+	spec = spec[::-1] ### APOGEE
+	spec = spec / np.median(spec)
+	fitswave = hdu[4].data ### APOGEE
+	fitswave = fitswave.flatten() ### APOGEE
+	fitswave = fitswave[::-1] ### APOGEE
+else:
+	spec = hdu[0].data
+	headerdwave = head['cdelt1']
+	headerwavestart = head['crval1']
+	headerwavestop = headerwavestart + headerdwave*len(spec)
+	fitswave = np.arange(headerwavestart, headerwavestop, headerdwave)
 if len(fitswave) != len(spec):
 	minlength = min(len(fitswave), len(spec))
 	fitswave = wave[0:minlength]
@@ -70,12 +71,14 @@ if len(fitswave) != len(spec):
 # Interpolate this onto an evenly spaced grid in real wavelength (not lnwavelength)
 # Apply any systemic velocity shift (gamma)
 lnwave, star1, star2 = np.loadtxt(fdbinarymodel, comments='#', usecols=(0,1,2), unpack=True)
+dwave = np.exp(lnwave[1]) - np.exp(lnwave[0])
+wavelen = (wavestop - wavestart) / dwave		# length of linear wavelength grid
+waveref = np.arange(wavelen)*dwave + wavestart 	# new linear wavelength grid
 f2 = open(outfile, 'w')
 wave = np.power(np.exp(1),lnwave)
 for i in range(0,len(wave)):
 	print (wave[i], star1[i], star2[i], file=f2)
 f2.close()
-waveref = (np.arange(wavelen)*dwave + wavestart)
 waveref = waveref * (gamma/c) + waveref # apply systemic gamma velocity shift
 newstar1 = np.interp(waveref, wave, star1)
 newstar2 = np.interp(waveref, wave, star2)

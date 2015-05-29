@@ -22,16 +22,17 @@ this text file is properly formatted for use with FDBinary
 '''
 
 #### EDIT THIS STUFF EACH TIME YOU RUN THIS PROGRAM!!! ####	
-infiles = '../../FDBinary/9246715/infiles_apogee.txt' #'infiles_shifted.txt'
+infiles = '../../FDBinary/9246715/infiles_apogee_flat2.txt' #'infiles_shifted.txt'
 bcvin = '../../FDBinary/9246715/bjds_baryvels_apogee.txt' #'infile_bcvs.txt'
-outfile = '../../FDBinary/9246715/chunk_all_ln_apogee2.obs'
+outfile = '../../FDBinary/9246715/chunk_all_ln_apogee_flat.obs'
+#infiles = '../../FDBinary/9246715/infiles_shifted.txt'
+#bcvin = '../../FDBinary/9246715/bjds_baryvels.txt'
+#outfile = '../../FDBinary/9246715/chunk_all_ln_caII.obs'
 jdref0 = 2454833
 gamma = -4.48
 isAPOGEE = True
-dwave = 0.0455			# distance btwn adjacent wavelength pts in Angstroms, used to make wavelen
-wavestart = 15145 #5320	# wavestart is starting wavelength in Angstroms, used to make wavelen
-wavestop = 16950 #7120	# wavestop is ending wavelength in Angstroms, used to make wavelen
-dlogwave = 0.0000035	# log10-wavelength spacing, used to define dlnwave
+wavestart = 15145 #5320	# starting wavelength in Angstroms
+wavestop = 16950 #7120	# ending wavelength in Angstroms
 #### EDIT THIS STUFF EACH TIME YOU RUN THIS PROGRAM!!! ####	
 
 c = 2.99792e5 # km/sec
@@ -41,7 +42,7 @@ def read_specfiles(infiles = infiles, bjdinfile = bcvin, isAPOGEE = isAPOGEE):
 	This function can handle both FITS and TXT input spectra in standard or APOGEE format.
 	'''
 	f1 = open(infiles)
-	speclist = []; wavelist = []
+	speclist = []; wavelist = []; dwaves = []
 	filenamelist = []; datetimelist = []
 	i = 0
 	for line in f1: # This loop happens once for each spectrum
@@ -100,27 +101,32 @@ def read_specfiles(infiles = infiles, bjdinfile = bcvin, isAPOGEE = isAPOGEE):
 			if logcheck == 'log angstroms':
 				wave = np.power(10,wave) # make it linear
 				spec = spec / np.median(spec) # also normalize it to 1
-			#print(wave, spec)
 			wavelist.append(wave)
 			speclist.append(spec)
+		# Regardless of whether it's a FITS or TXT file, save the wavelength grid spacing
+		dwave = wave[1] - wave[0]
+		dwaves.append(dwave)
 		i = i + 1	
 	# save the total number of spectra
 	nspec = i
 	f1.close()
-	return nspec, filenamelist, datetimelist, wavelist, speclist
+	return nspec, filenamelist, datetimelist, wavelist, speclist, dwaves
+
+# Read in the spectra in whatever form they are in
+nspec, filenamelist, datetimelist, wavelist, speclist, dwaves = read_specfiles(infiles, bcvin, isAPOGEE)
+bcvs = np.loadtxt(bcvin, comments='#', usecols=(2,), unpack=True)
+
+# Set the resolution of the new wavelength grid based on the lowest-res input spectrum
+dwaveref = np.max(dwaves)
+dlnwave = np.log(wavestart + dwaveref) - np.log(wavestart)
 
 # Create wavelength array of interest
-wavelen = (wavestop - wavestart) / dwave		# length of original wavelength grid
-dlnwave = np.log(np.power(10,dlogwave))			# ln-wavelength spacing (ACTUALLY USED)
+#dlnwave = np.log(np.power(10,dlogwave))			# ln-wavelength spacing
 lnwavestart = np.log(wavestart)				# ln-wavelength start value
 lnwavestop = np.log(wavestop)					# ln-wavelength end value
 dlnwavelen = (lnwavestop - lnwavestart) / dlnwave	# length of ln-wavelength grid
-waveref = np.arange(wavelen)*dwave + wavestart
-lnwaveref = np.arange(dlnwavelen)*dlnwave + lnwavestart # (ACTUALLY USED)
-
-# Read in the spectra in whatever form they are in
-nspec, filenamelist, datetimelist, wavelist, speclist = read_specfiles(infiles, bcvin, isAPOGEE)
-bcvs = np.loadtxt(bcvin, comments='#', usecols=(2,), unpack=True)
+lnwaveref = np.arange(dlnwavelen)*dlnwave + lnwavestart # ln-wavelength reference array
+#print(np.power(10,dlogwave))
 
 # Mess with the spectra so they are at zero RV and evenly spaced in natural-log-land
 lnwavelist = []
@@ -136,11 +142,13 @@ for i in range (0, nspec):
 # Print useful information to screen
 if len(lnwavelist) != len(bcvs):
 	print('Length of BCV list does not match number of spectra! Fix this!!')
-print('This info is for the fdbinary infile.')
+print(' ')
+print('This info is for the fdbinary infile:')
 for datetime in datetimelist:
 	print(datetime.jd-jdref0, 0, 1.0, 0.5, 0.5)	# assuming light ratio = 1
 print(' ')
 print('The new ln-wavelength scale spans %.4f - %.4f with stepsize %.8f.' % (lnwaveref[0], lnwaveref[-1], dlnwave))
+print('In linear wavelengths, this is {0} - {1} with stepsize {2}.'.format(wavestart, wavestop, dwaveref))
 
 # Write waveref (1st column) and newspeclist (2nd--Nth columns) to outfile
 # (This reads the first element of each newspeclist array and saves it as a string)
@@ -155,4 +163,7 @@ f2.close()
 
 print(' ')
 print('Result printed to %s' % outfile)
-print(' ')
+print('The next thing to do is run fdbinary!')
+print('(You may need to \'make_fdbinary_infile.py\' first)')
+print('Here is what to type to run fdbinary once those files exist:')
+print('for file in infile_chunk*.txt; do ./fdbinary < "$file"; done; rm allchunks.mod; cat chunk*.mod > allchunks.mod; rm allchunks.rvs; cat chunk*.rvs > allchunks.rvs')
