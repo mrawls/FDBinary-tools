@@ -11,9 +11,10 @@ Takes a model spectrum and an observed spectrum
 Subtracts them at wavelengths you define to look for signatures of magnetic activity.
 '''
 
-s1file = '../../FDBinary/9246715/FDBinary_star1_trial6.fits' # star 1
-s2file = '../../FDBinary/9246715/FDBinary_star2_trial6.fits' # star 2
-model = '../../FDBinary/9246715/model_rg48.bf.arces.txt'
+s1file = '../../FDBinary/9246715/FDBinary_star1_bluer.fits' # star 1
+s2file = '../../FDBinary/9246715/FDBinary_star2_bluer.fits' # star 2
+#model = '../../FDBinary/9246715/model_rg48.bf.arces.txt'
+model = '../../RG_spectra/model_rg50_30_R50000.txt'
 
 s1file2 = '../../FDBinary/9246715/FDBinary_star1_caII.fits'
 s2file2 = '../../FDBinary/9246715/FDBinary_star2_caII.fits'
@@ -64,33 +65,34 @@ def activity_plot(fignum, flux, color):
 	plt.subplots_adjust(hspace=0.35)
 	fig.text(0.5, 0.03, r'Wavelength (\AA)', ha='center', va='center', size=24)
 	fig.text(0.07, 0.5, 'Scaled Flux', ha='center', va='center', size=24, rotation='vertical')
-		
-	ax = plt.subplot(2,5,1)
-	plt.title(r'Fe I $\lambda$5558', size=24)
-	line = 5557.913
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(4))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+ 	
+ 	ax = plt.subplot(2,5,1)
+ 	#ax.get_yaxis().set_ticklabels([])
+ 	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
+ 	line = 5557.913
+ 	ax.axvline(x=line, color='0.75')
+ 	ax.xaxis.set_major_locator(MaxNLocator(4))
+ 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
 
-	ax = plt.subplot(2,5,2)
+ 	ax = plt.subplot(2,5,2)
 	ax.get_yaxis().set_ticklabels([])
-	plt.title(r'He I $\lambda$5876', size=24)
-	line = 5875.6
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(3))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color)
-	
-	ax = plt.subplot(2,5,3)
-	ax.get_yaxis().set_ticklabels([])
-	plt.title(r'Fe I $\lambda$6173', size=24)
-	line = 6173.335
+	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
+	line = 5576.099
 	ax.axvline(x=line, color='0.75')
 	ax.xaxis.set_major_locator(MaxNLocator(4))
 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
-	
+ 
+ 	ax = plt.subplot(2,5,3)
+ 	ax.get_yaxis().set_ticklabels([])
+ 	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
+ 	line = 5691.505
+ 	ax.axvline(x=line, color='0.75')
+ 	ax.xaxis.set_major_locator(MaxNLocator(4))
+ 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+
 	ax = plt.subplot(2,5,4)
 	ax.get_yaxis().set_ticklabels([])
-	plt.title(r'Fe I $\lambda$6303', size=24)
+	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
 	line = 6302.500
 	ax.axvline(x=line, color='0.75')
 	ax.xaxis.set_major_locator(MaxNLocator(4))
@@ -98,28 +100,29 @@ def activity_plot(fignum, flux, color):
 
 	ax = plt.subplot(2,5,5)
 	ax.get_yaxis().set_ticklabels([])
-	plt.title(r'H$\alpha$ $\lambda$6563', size=24)
+	plt.title(r'H$\alpha$', size=24)
 	line = 6562.8
 	ax.axvline(x=line, color='0.75')
 	ax.xaxis.set_major_locator(MaxNLocator(4))
 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
-	
+
 	ax = plt.subplot(2,5,6)
 	#ax.get_yaxis().set_ticklabels([])
-	plt.title(r'Fe I $\lambda$6733', size=24)
-	line = 6733.157
+	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
+	line = 6842.691
 	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(4))
+	ax.xaxis.set_major_locator(MaxNLocator(3))
 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
 	
 	ax = plt.subplot(2,5,7)
 	ax.get_yaxis().set_ticklabels([])
-	plt.title(r'Fe I $\lambda$6843', size=24)
-	line = 6842.691
+	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
+	line = 7090.390
 	ax.axvline(x=line, color='0.75')
 	ax.xaxis.set_major_locator(MaxNLocator(3))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color, uselabel=True)	
+	plot_chunk(flux, diff, int(line-5), int(line+5), color, uselabel=True)
 	ax.legend(bbox_to_anchor=(4.7,0.65), loc=1, borderaxespad=0., frameon=False, prop={'size':24})
+	
 
 # Interpolate when necessary and make plots
 
@@ -160,7 +163,7 @@ diff = f1 - fm
 plt.figure(1, figsize=(18,8))
 ax = plt.subplot2grid((2,5), (1,2), colspan=2)
 ax.get_yaxis().set_ticklabels([])
-plt.title(r'Ca II $\lambda\lambda$8498,8542', size=24)
+plt.title('$\hbox{Ca\kern 0.1em{\sc ii}}$ $\lambda\lambda$8498,8542', size=24)
 ax.axvline(x=8498, color='0.75')
 ax.axvline(x=8542, color='0.75')
 #ax.xaxis.set_major_locator(MaxNLocator(4))
@@ -171,7 +174,7 @@ diff = f2 - fm
 plt.figure(2, figsize=(18,8))
 ax = plt.subplot2grid((2,5), (1,2), colspan=2)
 ax.get_yaxis().set_ticklabels([])
-plt.title(r'Ca II $\lambda\lambda$8498,8542', size=24)
+plt.title('$\hbox{Ca\kern 0.1em{\sc ii}}$ $\lambda\lambda$8498,8542', size=24)
 ax.axvline(x=8498, color='0.75')
 ax.axvline(x=8542, color='0.75')
 #ax.xaxis.set_major_locator(MaxNLocator(4))
