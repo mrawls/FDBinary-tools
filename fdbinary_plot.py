@@ -15,20 +15,23 @@ This program DOES NOT prompt for input.
 '''
 
 ### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
-#fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
-#fdbinarymodel = '../../FDBinary/9246715/trial7/allchunks.mod'
-#outfile = '../../FDBinary/9246715/trial7/fdbinary_out.txt'
-fitsfile = '../../RG_spectra/APOGEE/KIC9246715_obs1.fits'
-fdbinarymodel = '../../FDBinary/9246715/apogee_trial2/allchunks.mod'
-outfile = '../../FDBinary/9246715/apogee_trial2/fdbinary_out.txt'
-isAPOGEE = True
-wavestart = 15145 #5320	# starting wavelength in Angstroms
-wavestop = 16950 #7120	# ending wavelength in Angstroms
+fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
+fdbinarymodel = '../../FDBinary/9246715/trialblue/allchunks.mod'
+outfile = '../../FDBinary/9246715/trialblue/fdbinary_out.txt'
+#fitsfile = '../../RG_spectra/APOGEE/KIC9246715_obs1.fits'
+#fdbinarymodel = '../../FDBinary/9246715/apogee_trial2/allchunks.mod'
+#outfile = '../../FDBinary/9246715/apogee_trial2/fdbinary_out.txt'
+#isAPOGEE = True
+isAPOGEE = False
+wavestart = 4900 #15145 #5320	# starting wavelength in Angstroms
+wavestop = 7120 #16950 #7120	# ending wavelength in Angstroms
 # New FITS files that will be created
-#outfits1 = '../../FDBinary/9246715/FDBinary_star1_trial7.fits'
-#outfits2 = '../../FDBinary/9246715/FDBinary_star2_trial7.fits'
-outfits1 = '../../FDBinary/9246715/FDBinary_star1_apgetrial2.fits'
-outfits2 = '../../FDBinary/9246715/FDBinary_star2_apgetrial2.fits'
+outfits1 = '../../FDBinary/9246715/FDBinary_star1_bluer.fits'
+outfits2 = '../../FDBinary/9246715/FDBinary_star2_bluer.fits'
+#outfits1 = '../../FDBinary/9246715/FDBinary_star1_apgetrial2.fits'
+#outfits2 = '../../FDBinary/9246715/FDBinary_star2_apgetrial2.fits'
+outtxt1 = '../../FDBinary/9246715/FDBinary_star1_bluer.txt'
+outtxt2 = '../../FDBinary/9246715/FDBinary_star2_bluer.txt'
 ### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
 
 # Plot parameters
@@ -75,7 +78,7 @@ dwave = np.exp(lnwave[1]) - np.exp(lnwave[0])
 wavelen = (wavestop - wavestart) / dwave		# length of linear wavelength grid
 waveref = np.arange(wavelen)*dwave + wavestart 	# new linear wavelength grid
 f2 = open(outfile, 'w')
-wave = np.power(np.exp(1),lnwave)
+wave = np.power(np.exp(1),lnwave) # DO NOT use 'wave' for anything
 for i in range(0,len(wave)):
 	print (wave[i], star1[i], star2[i], file=f2)
 f2.close()
@@ -103,7 +106,17 @@ print (' ')
 print ('New FITS files created: %s and %s' % (outfits1, outfits2))
 print (' ')
 
-print(min(spec), max(spec), min(star1), max(star1), min(star2), max(star2))
+#print(min(spec), max(spec), min(star1), max(star1), min(star2), max(star2))
+
+# Save text files to make Patrick happy since he doesn't like FITS
+file1 = open(outtxt1, 'w')
+file2 = open(outtxt2, 'w')
+for wav, spe in zip(waveref, newstar1):
+	print(wav, spe, file=file1)
+for wav, spe in zip(waveref, newstar2):
+	print(wav, spe, file=file2)
+file1.close()
+file2.close()
 
 # Actually make a plot!
 # Three spectra: 'raw'/real one, and two extracted component model ones
