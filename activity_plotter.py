@@ -60,7 +60,8 @@ def activity_plot(fignum, flux, color):
 	Uses plot_chunk for a specific set of manually labeled wavelength regions
 	'''
 	global fm
-	diff = flux - fm
+	#diff = flux - fm
+	diff = (fm - flux)/flux
 	fig = plt.figure(fignum, figsize=(18,8))
 	plt.subplots_adjust(hspace=0.35)
 	fig.text(0.5, 0.03, r'Wavelength (\AA)', ha='center', va='center', size=24)
@@ -159,7 +160,8 @@ fit2 = interp1d(w2, f2)
 f2 = fit2(wm)
 
 # Star 1
-diff = f1 - fm
+#diff = f1 - fm
+diff = (fm - f1)/f1
 plt.figure(1, figsize=(18,8))
 ax = plt.subplot2grid((2,5), (1,2), colspan=2)
 ax.get_yaxis().set_ticklabels([])
@@ -170,7 +172,8 @@ ax.axvline(x=8542, color='0.75')
 plot_chunk(f1, diff, 8490, 8550, red)
 
 # Star 2
-diff = f2 - fm
+#diff = f2 - fm
+diff = (fm - f2)/f2
 plt.figure(2, figsize=(18,8))
 ax = plt.subplot2grid((2,5), (1,2), colspan=2)
 ax.get_yaxis().set_ticklabels([])
