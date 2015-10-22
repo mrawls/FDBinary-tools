@@ -11,8 +11,8 @@ some useful values for this.
 
 # EDIT THIS PART TO SUIT YOUR PURPOSES !!!
 # All wavelength values are in Angstroms
-wavestart = 15145
-wavestop = 16950
+wavestart = 4900 #15145
+wavestop = 7120 #16950
 chunksize = 10
 spectra2txtoutfile = 'chunk_all_ln.obs'
 
