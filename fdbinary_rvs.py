@@ -25,31 +25,31 @@ fdbinary_rvs = '../../FDBinary/9246715/apogee_trial2/chunk001.rvs'
 real_rvs = '../../FDBinary/9246715/9246715_rvs_final_apogeeonly.txt'
 period = 171.277967
 BJD0 = 2455170.514777
-gamma = -4.478						# systemic velocity IMPORTANT !!!!!
-c = 2.99792e5 						#km per sec
-dlogwave = 0.0000035 				# resolution in log-wave (from spectra2txt.py)
-dlnwave = np.log(np.power(10,dlogwave))	# resolution in ln-wave
-gridres = (np.exp(dlnwave) - 1)*c		# velocity spacing of the ln-wave grid
+gamma = -4.478                        # systemic velocity IMPORTANT !!!!!
+c = 2.99792e5                         #km per sec
+dlogwave = 0.0000035                 # resolution in log-wave (from spectra2txt.py)
+dlnwave = np.log(np.power(10,dlogwave))    # resolution in ln-wave
+gridres = (np.exp(dlnwave) - 1)*c        # velocity spacing of the ln-wave grid
 
 def phasecalc(times, period, BJD0):
-	phases = []
-	cycles = []
-	for i in range(0, len(times)):
-		fracP = (times[i] - BJD0) / period
-		if fracP < 0:
-			phases.append(fracP % 1)
-			cycles.append(int(fracP))
-		else:
-			phases.append(fracP % 1)
-			cycles.append(int(fracP) + 1)
-		#print(fracP, phases[i])
-	return phases
+    phases = []
+    cycles = []
+    for i in range(0, len(times)):
+        fracP = (times[i] - BJD0) / period
+        if fracP < 0:
+            phases.append(fracP % 1)
+            cycles.append(int(fracP))
+        else:
+            phases.append(fracP % 1)
+            cycles.append(int(fracP) + 1)
+        #print(fracP, phases[i])
+    return phases
 
 bjd, bcv = np.loadtxt(bjdinfile, comments='#', dtype=np.float64, usecols=(1,2), unpack=True)
 # we assume the 1st (0th?) line is zeros, because this file was used with BF_python.py
 newbjd = []
 for i in range(0,len(bjd)-1):
-	newbjd.append(bjd[i+1])
+    newbjd.append(bjd[i+1])
 
 rv1_fdb, rv2_fdb = np.loadtxt(fdbinary_rvs, comments='#', usecols=(0,1), unpack=True)
 rv1_fdb = rv1_fdb * gridres + gamma

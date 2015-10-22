@@ -23,8 +23,8 @@ outfile = '../../FDBinary/9246715/trialblue/fdbinary_out.txt'
 #outfile = '../../FDBinary/9246715/apogee_trial2/fdbinary_out.txt'
 #isAPOGEE = True
 isAPOGEE = False
-wavestart = 4900 #15145 #5320	# starting wavelength in Angstroms
-wavestop = 7120 #16950 #7120	# ending wavelength in Angstroms
+wavestart = 4900 #15145 #5320    # starting wavelength in Angstroms
+wavestop = 7120 #16950 #7120    # ending wavelength in Angstroms
 # New FITS files that will be created
 outfits1 = '../../FDBinary/9246715/FDBinary_star1_bluer.fits'
 outfits2 = '../../FDBinary/9246715/FDBinary_star2_bluer.fits'
@@ -52,35 +52,35 @@ plt.ylabel('Scaled flux', size=24)
 hdu = fits.open(fitsfile)
 head = hdu[0].header
 if isAPOGEE == True:
-	spec = hdu[1].data ### APOGEE
-	spec = spec.flatten() ### APOGEE
-	spec = spec[::-1] ### APOGEE
-	spec = spec / np.median(spec)
-	fitswave = hdu[4].data ### APOGEE
-	fitswave = fitswave.flatten() ### APOGEE
-	fitswave = fitswave[::-1] ### APOGEE
+    spec = hdu[1].data ### APOGEE
+    spec = spec.flatten() ### APOGEE
+    spec = spec[::-1] ### APOGEE
+    spec = spec / np.median(spec)
+    fitswave = hdu[4].data ### APOGEE
+    fitswave = fitswave.flatten() ### APOGEE
+    fitswave = fitswave[::-1] ### APOGEE
 else:
-	spec = hdu[0].data
-	headerdwave = head['cdelt1']
-	headerwavestart = head['crval1']
-	headerwavestop = headerwavestart + headerdwave*len(spec)
-	fitswave = np.arange(headerwavestart, headerwavestop, headerdwave)
+    spec = hdu[0].data
+    headerdwave = head['cdelt1']
+    headerwavestart = head['crval1']
+    headerwavestop = headerwavestart + headerdwave*len(spec)
+    fitswave = np.arange(headerwavestart, headerwavestop, headerdwave)
 if len(fitswave) != len(spec):
-	minlength = min(len(fitswave), len(spec))
-	fitswave = wave[0:minlength]
-	spec = spec[0:minlength]
+    minlength = min(len(fitswave), len(spec))
+    fitswave = wave[0:minlength]
+    spec = spec[0:minlength]
 
 # Read in data from FDBinary decomposed spectra
 # Interpolate this onto an evenly spaced grid in real wavelength (not lnwavelength)
 # Apply any systemic velocity shift (gamma)
 lnwave, star1, star2 = np.loadtxt(fdbinarymodel, comments='#', usecols=(0,1,2), unpack=True)
 dwave = np.exp(lnwave[1]) - np.exp(lnwave[0])
-wavelen = (wavestop - wavestart) / dwave		# length of linear wavelength grid
-waveref = np.arange(wavelen)*dwave + wavestart 	# new linear wavelength grid
+wavelen = (wavestop - wavestart) / dwave        # length of linear wavelength grid
+waveref = np.arange(wavelen)*dwave + wavestart     # new linear wavelength grid
 f2 = open(outfile, 'w')
 wave = np.power(np.exp(1),lnwave) # DO NOT use 'wave' for anything
 for i in range(0,len(wave)):
-	print (wave[i], star1[i], star2[i], file=f2)
+    print (wave[i], star1[i], star2[i], file=f2)
 f2.close()
 waveref = waveref * (gamma/c) + waveref # apply systemic gamma velocity shift
 newstar1 = np.interp(waveref, wave, star1)
@@ -112,9 +112,9 @@ print (' ')
 file1 = open(outtxt1, 'w')
 file2 = open(outtxt2, 'w')
 for wav, spe in zip(waveref, newstar1):
-	print(wav, spe, file=file1)
+    print(wav, spe, file=file1)
 for wav, spe in zip(waveref, newstar2):
-	print(wav, spe, file=file2)
+    print(wav, spe, file=file2)
 file1.close()
 file2.close()
 

@@ -23,107 +23,107 @@ red = '#e34a33'
 yel = '#fdbb84'
 
 def readImage(image):
-	'''
-	Read a FITS spectrum and save wavelength and flux info
-	'''
-	hdu = fits.open(image)
-	flux = hdu[0].data
-	hdr = hdu[0].header
-	hdu.close()
-	wave = np.arange(len(flux)) * hdr['cdelt1'] + hdr['crval1']
-	return wave, flux
+    '''
+    Read a FITS spectrum and save wavelength and flux info
+    '''
+    hdu = fits.open(image)
+    flux = hdu[0].data
+    hdr = hdu[0].header
+    hdu.close()
+    wave = np.arange(len(flux)) * hdr['cdelt1'] + hdr['crval1']
+    return wave, flux
 
 def plot_chunk(f, d, x1, x2, color, uselabel=False):
-	'''
-	Plot a chunk of spectrum from x1 to x2 (start/end wavelengths)
-	Also plot the difference between this spectrum and a model spectrum
-		f = observed flux
-		d = difference between observed flux and model
-		wm = wavelength grid corresponding to model spectrum
-		fm = flux corresponding to wm of model spectrum
-	'''
-	global fm, wm
-	
-	if uselabel==True:
-		plt.plot(wm, f, color=color, ls='-', lw=2, label='Observed')
-		plt.plot(wm, fm, color='k', ls=':', label='Model')
-		plt.plot(wm, d, 'k-', label='Difference')
-	else:
-		plt.plot(wm, f, color=color, ls='-', lw=2)
-		plt.plot(wm, fm, color='k', ls=':')
-		plt.plot(wm, d, 'k-')
-	plt.xlim(x1, x2)
-	plt.ylim(-.45, 1.2)
+    '''
+    Plot a chunk of spectrum from x1 to x2 (start/end wavelengths)
+    Also plot the difference between this spectrum and a model spectrum
+        f = observed flux
+        d = difference between observed flux and model
+        wm = wavelength grid corresponding to model spectrum
+        fm = flux corresponding to wm of model spectrum
+    '''
+    global fm, wm
+    
+    if uselabel==True:
+        plt.plot(wm, f, color=color, ls='-', lw=2, label='Observed')
+        plt.plot(wm, fm, color='k', ls=':', label='Model')
+        plt.plot(wm, d, 'k-', label='Difference')
+    else:
+        plt.plot(wm, f, color=color, ls='-', lw=2)
+        plt.plot(wm, fm, color='k', ls=':')
+        plt.plot(wm, d, 'k-')
+    plt.xlim(x1, x2)
+    plt.ylim(-.45, 1.2)
     
 def activity_plot(fignum, flux, color):
-	'''
-	Uses plot_chunk for a specific set of manually labeled wavelength regions
-	'''
-	global fm
-	#diff = flux - fm
-	diff = (fm - flux)/flux
-	fig = plt.figure(fignum, figsize=(18,8))
-	plt.subplots_adjust(hspace=0.35)
-	fig.text(0.5, 0.03, r'Wavelength (\AA)', ha='center', va='center', size=24)
-	fig.text(0.07, 0.5, 'Scaled Flux', ha='center', va='center', size=24, rotation='vertical')
- 	
- 	ax = plt.subplot(2,5,1)
- 	#ax.get_yaxis().set_ticklabels([])
- 	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
- 	line = 5557.913
- 	ax.axvline(x=line, color='0.75')
- 	ax.xaxis.set_major_locator(MaxNLocator(4))
- 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+    '''
+    Uses plot_chunk for a specific set of manually labeled wavelength regions
+    '''
+    global fm
+    #diff = flux - fm
+    diff = (fm - flux)/flux
+    fig = plt.figure(fignum, figsize=(18,8))
+    plt.subplots_adjust(hspace=0.35)
+    fig.text(0.5, 0.03, r'Wavelength (\AA)', ha='center', va='center', size=24)
+    fig.text(0.07, 0.5, 'Scaled Flux', ha='center', va='center', size=24, rotation='vertical')
+     
+     ax = plt.subplot(2,5,1)
+     #ax.get_yaxis().set_ticklabels([])
+     plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
+     line = 5557.913
+     ax.axvline(x=line, color='0.75')
+     ax.xaxis.set_major_locator(MaxNLocator(4))
+     plot_chunk(flux, diff, int(line-5), int(line+5), color)
 
- 	ax = plt.subplot(2,5,2)
-	ax.get_yaxis().set_ticklabels([])
-	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
-	line = 5576.099
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(4))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+     ax = plt.subplot(2,5,2)
+    ax.get_yaxis().set_ticklabels([])
+    plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
+    line = 5576.099
+    ax.axvline(x=line, color='0.75')
+    ax.xaxis.set_major_locator(MaxNLocator(4))
+    plot_chunk(flux, diff, int(line-5), int(line+5), color)
  
- 	ax = plt.subplot(2,5,3)
- 	ax.get_yaxis().set_ticklabels([])
- 	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
- 	line = 5691.505
- 	ax.axvline(x=line, color='0.75')
- 	ax.xaxis.set_major_locator(MaxNLocator(4))
- 	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+     ax = plt.subplot(2,5,3)
+     ax.get_yaxis().set_ticklabels([])
+     plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
+     line = 5691.505
+     ax.axvline(x=line, color='0.75')
+     ax.xaxis.set_major_locator(MaxNLocator(4))
+     plot_chunk(flux, diff, int(line-5), int(line+5), color)
 
-	ax = plt.subplot(2,5,4)
-	ax.get_yaxis().set_ticklabels([])
-	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
-	line = 6302.500
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(4))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+    ax = plt.subplot(2,5,4)
+    ax.get_yaxis().set_ticklabels([])
+    plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
+    line = 6302.500
+    ax.axvline(x=line, color='0.75')
+    ax.xaxis.set_major_locator(MaxNLocator(4))
+    plot_chunk(flux, diff, int(line-5), int(line+5), color)
 
-	ax = plt.subplot(2,5,5)
-	ax.get_yaxis().set_ticklabels([])
-	plt.title(r'H$\alpha$', size=24)
-	line = 6562.8
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(4))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color)
+    ax = plt.subplot(2,5,5)
+    ax.get_yaxis().set_ticklabels([])
+    plt.title(r'H$\alpha$', size=24)
+    line = 6562.8
+    ax.axvline(x=line, color='0.75')
+    ax.xaxis.set_major_locator(MaxNLocator(4))
+    plot_chunk(flux, diff, int(line-5), int(line+5), color)
 
-	ax = plt.subplot(2,5,6)
-	#ax.get_yaxis().set_ticklabels([])
-	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
-	line = 6842.691
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(3))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color)
-	
-	ax = plt.subplot(2,5,7)
-	ax.get_yaxis().set_ticklabels([])
-	plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
-	line = 7090.390
-	ax.axvline(x=line, color='0.75')
-	ax.xaxis.set_major_locator(MaxNLocator(3))
-	plot_chunk(flux, diff, int(line-5), int(line+5), color, uselabel=True)
-	ax.legend(bbox_to_anchor=(4.7,0.65), loc=1, borderaxespad=0., frameon=False, prop={'size':24})
-	
+    ax = plt.subplot(2,5,6)
+    #ax.get_yaxis().set_ticklabels([])
+    plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, mag', size=24)
+    line = 6842.691
+    ax.axvline(x=line, color='0.75')
+    ax.xaxis.set_major_locator(MaxNLocator(3))
+    plot_chunk(flux, diff, int(line-5), int(line+5), color)
+    
+    ax = plt.subplot(2,5,7)
+    ax.get_yaxis().set_ticklabels([])
+    plt.title('$\hbox{Fe\kern 0.1em{\sc i}}$, non-mag', size=24)
+    line = 7090.390
+    ax.axvline(x=line, color='0.75')
+    ax.xaxis.set_major_locator(MaxNLocator(3))
+    plot_chunk(flux, diff, int(line-5), int(line+5), color, uselabel=True)
+    ax.legend(bbox_to_anchor=(4.7,0.65), loc=1, borderaxespad=0., frameon=False, prop={'size':24})
+    
 
 # Interpolate when necessary and make plots
 
