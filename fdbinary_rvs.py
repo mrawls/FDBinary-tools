@@ -20,7 +20,7 @@ a plot of both RV values
 
 #bjdinfile = 'bjds_baryvels.txt'
 bjdinfile = '../../FDBinary/9246715/bjds_baryvels_apogee.txt'
-fdbinary_rvs = '../../FDBinary/9246715/apogee_trial1/chunk001.rvs'
+fdbinary_rvs = '../../FDBinary/9246715/apogee_trial2/chunk001.rvs'
 #real_rvs = '9246715_rvs_final_REALLY.txt'
 real_rvs = '../../FDBinary/9246715/9246715_rvs_final_apogeeonly.txt'
 period = 171.277967
