@@ -1,0 +1,104 @@
+
+  fd3 v.3.1 (Florianapolis, 25 July 2014)
+
+  SECTION 1: LOADING OBSERVED SPECTRA
+
+  observed spectra master file = art_single.master.obs
+  loaded 8 spectra with 13 bins per spectrum
+  lnlambda range from 0.0001 to 0.0013
+  rv step 29.9815 km/s per bin
+  use data from lnlambda = 0
+             to lnlambda = 0.002
+  selected 13 bins per spectrum
+
+  SECTION 2: OUTPUT FILES
+
+  output files root name = art_single
+
+  used part of observed spectra ------------> "art_single.obs"
+  model spectra ----------------------------> "art_single.mod"
+  residuals (obs. - calc.) -----------------> "art_single.res"
+  radial velocities (in bin units) ---------> "art_single.rvs"
+  optimisation log -------------------------> "art_single.log"
+
+  SECTION 3: COMPONENT SPECTRA MODELING SWITCHES (0/1)
+
+  A = 1
+  B = 0
+  C = 0
+
+  number of components to be resolved is 1
+
+  SECTION 4: DESCRIPTORS TO OBSERVED SPECTRA
+             AND LIGHT-FACTORS ASSIGNED TO COMPONENTS
+
+           t_obs     rv_corr   noise_rms      lf_A
+           [day]      [km/s]         [1]       [1]
+
+         0.00000      0.0000      1.0000    1.0000
+         1.00000      0.0000      1.0000    1.0000
+         3.00000    -29.9815      1.0000    1.0000
+         5.00000      0.0000      1.0000    1.0000
+         6.00000      0.0000      1.0000    1.0000
+         7.00000      0.0000      1.0000    1.0000
+         9.00000      0.0000      1.0000    1.0000
+        11.00000      0.0000      1.0000    1.0000
+
+  SECTION 5: PARAMETERS OF ORBITS
+
+  wide (AB--C) orbit
+
+  period of AB--C [day] = 1 +/- 0
+  time of periast pass in AB--C [day] = 1 +/- 0
+  eccentricity of AB--C [1] = 0 +/- 0
+  periast long of AB in AB--C [deg] = 0 +/- 0
+  a sin(incl) of AB in AB--C [light-day] = 0 +/- 0
+  a sin(incl) of C in AB--C [light-day] = 0 +/- 0
+
+  tight (A--B) orbit
+
+  period A--B [day] = 12 +/- 0
+  time of periast pass in A--B [day] = 8 +/- 8 *** free ***
+  eccentricity of A--B [1] = 0 +/- 0
+  periast long of A in A--B [deg] = 0 +/- 0
+  rv semiamp of A in A--B [km/s] = 60 +/- 10 *** free ***
+  rv semiamp of B in A--B [km/s] = 0 +/- 0
+  periast long adv per cycle in A--B [deg] = 0 +/- 0
+
+  number of free orbital parameters is 2
+
+  SECTION 6: OPTIMISATION DETAILS
+
+  number of independent optimisation runs = 100
+  number of allowed iterations per run = 1000
+  stop when simplex shrinked by factor = 0.001
+
+  SECTION 7: OPTIMISATION
+
+  separation at the starting point:  chi2=5.74662  gof=1.00
+  converged disentangling runs reported only if chi2 decreases
+
+  irun=1  iter=35  sxshrnkf=0.001  chi2=0.873751  gof=1.00
+              time of periast pass in A--B = 33.0002477 day
+                   rv semiamp of A in A--B = 60.6661478 km/s
+
+  irun=5  iter=23  sxshrnkf=0.00084  chi2=0.873729  gof=1.00
+              time of periast pass in A--B = 9.00015778 day
+                   rv semiamp of A in A--B = 59.2790235 km/s
+
+  irun=18  iter=28  sxshrnkf=0.0006  chi2=0.873728  gof=1.00
+              time of periast pass in A--B = 20.9998508 day
+                   rv semiamp of A in A--B = 60.6460531 km/s
+
+  irun=33  iter=28  sxshrnkf=0.00072  chi2=0.873719  gof=1.00
+              time of periast pass in A--B = 9.00016586 day
+                   rv semiamp of A in A--B = 60.5564076 km/s
+
+  irun=48  iter=22  sxshrnkf=0.00064  chi2=0.873698  gof=1.00
+              time of periast pass in A--B = -2.99999142 day
+                   rv semiamp of A in A--B = 59.3752282 km/s
+
+  completed 100 optimisation runs
+
+  EXITING REGULARLY
+

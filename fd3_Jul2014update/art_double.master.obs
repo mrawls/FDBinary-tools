@@ -1,0 +1,55 @@
+#  9  X  20
+
+#  Test input file for FDBinary (http://sail.zpf.fer.hr/fdbinary)
+#  The first column contains log-wavelengths,
+#  as required by the V.3 of the code.
+#  The eight columns that follow are the artificial composite
+#  spectra, 20 px long, ordered according to the orbital phase.
+#  Note the double-S-shaped movement of the spectral lines in time.
+
+0.0001   1       1       1       1       1       1       1       1
+0.0002   1       1       1       1       1       1       1       1
+0.0003   1       1       1       1       1       1       1       1
+0.0004   1       1       1       1       1       1       1       1
+0.0005   1       1       .916667 1       1       1       1       1
+0.0006   1       1       1       1       1       1       1       1
+0.0007   1       .916667 1       .916667 1       1       .5      1
+0.0008   1       1       1       1       1       .5      1       .5
+0.0009   .4      1       1       1       .5      1       1       1
+0.0010   1       .5      1       .5      1       1       1       1
+0.0011   1       1       .5      1       1       .916667 1       .916667
+0.0012   1       1       1       1       1       1       1       1
+0.0013   1       1       1       1       1       1       .916667 1
+0.0014   1       1       1       1       1       1       1       1
+0.0015   1       1       1       1       1       1       1       1
+0.0016   1       1       1       1       1       1       1       1
+0.0017   1       1       1       1       1       1       1       1
+0.0018   1       1       1       1       1       1       1       1
+0.0019   1       1       1       1       1       1       1       1
+0.0020   1       1       1       1       1       1       1       1
+
+#  The spectra were composed from these component spectra:
+#  star-1: amp = 1 except at pixel 9 where amp = 1/3
+#  star-2: amp = 1 except at pixel 9 where amp = 2/3
+#  at orbital phases 0, 1/12, 1/4, 5/12, 1/2, 7/12, 3/4 and 11/12.
+#  Phase 0 is chosen so that the star-1 is eclipsing the star-2.
+#  Orbit is taken to be purely circular with radial-velocity
+#  semi-amplitudes k1 = 2 pix and k2 = 4 pix.
+
+#  The out-of-eclipse light-ratio is taken to be L=3, meaning star
+#  1 is 3X brighter than star 2; this leads to out-of-eclipse
+#  light-factors (LFs) 3/4 for spectrum-1 and 1/4 for spectrum-2.
+#  At phase 0 star-2 is eclipsed by star-1, and the light of star-2
+#  is reduced to 3/4 of its light out of eclipse.  The LFs at phase
+#  0 are therefore 4/5 for spectrum-1 and 1/5 for spectrum-2.
+#  At phase 1/2 star-1 is eclipsed by star-2, and the light of
+#  star-1 is reduced to 1/3 of its light out of eclipse.
+#  Therefore at phase 1/2 the LFs are 1/2 for both components.
+
+#  THIS IS NO LONGER TRUE:  V.3 testing phase
+#  IMPORTANT: At phase 3/4 (one but last column)
+#  the composite spectrum is intentionally shifted
+#  to the red by one pixel (this is not an error).
+
+#  Last update Feb 2005 by sasa.ilijic@fer.hr
+

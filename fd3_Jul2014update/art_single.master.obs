@@ -1,0 +1,19 @@
+#  9  X  13
+
+.0001     2 1 1 1 1 1 1 1
+.0002     1 1 1 1 1 1 1 1
+.0003     1 1 1 1 1 1 1 1
+.0004     1 1 0 1 1 1 1 1
+.0005     1 1 1 1 1 1 1 1
+.0006     1 0 1 0 1 1 1 1
+.0007     0 1 1 1 0 1 1 1
+.0008     1 1 1 1 1 0 1 0
+.0009     1 1 1 1 1 1 0 1
+.0010     1 1 1 1 1 1 1 1
+.0011     1 1 1 1 1 1 1 1
+.0012     1 1 1 1 1 1 1 1
+.0013     1 1 1 1 1 1 1 1
+
+# the third spectrum is intentionally displaced by one pixel to the blue
+# with respect to what it should look like in the center of mass frame
+

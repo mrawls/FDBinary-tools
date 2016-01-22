@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<meta name="keywords"
+   content="FDBinary fd3 spectral disentangling
+            spectroscopic binary star SB2"/>
+
+<meta name="description"
+   content="FDBinary Home Page: FDBinary is a code
+            for spectral disentangling of double lined
+            spectroscopic binary stars"/>
+
+<!--link type="text/css" rel="stylesheet"
+      href="http://www.w3.org/StyleSheets/Core/Steely"/-->
+<link type="text/css" rel="stylesheet" href="style.css"/>
+
+<title> FDBinary Home Page </title>
+
+</head>
+
+<body>
+
+<p>
+This is:
+<a href="http://sail.zpf.fer.hr/fd3">http://sail.zpf.fer.hr/fd3</a>,
+last update July 2014.
+</p>
+
+<h1> fd3 </h1>
+
+<p>
+A tool for spectral disentangling
+of double-lined spectroscopic binary stars
+</p>
+
+
+<h2> Overview </h2>
+
+<p>
+The spectral disentangling technique
+can be applied on a time series of observed spectra
+of a spectroscopic double-lined binary star (SB2)
+to determine the parameters of orbit
+and reconstruct the spectra of component stars,
+without the use of template spectra.
+</p>
+
+<p>
+fd3 is a tool for disentangling of the spectra of SB2 stars,
+capable also of resolving the possible third companion.
+It uses a combination of ideas borrowed from
+<a href="http://adsabs.harvard.edu/abs/1994A%26A...281..286S">Simon
+and Sturm (1994)</a>
+and <a href="http://adsabs.harvard.edu/abs/1995A%26AS..114..393H">Hadrava
+(1995)</a>, as well as from
+<a href="http://adsabs.harvard.edu/abs/2008A%26A...482.1031H">Hensberge,
+Ilijić &amp; Torres (2008)</a>.
+fd3 performs the separation of spectra in the Fourier space which is faster,
+but in several respects less versatile than the wavelength-space separation.
+(Wavelength-space separation is implemented
+in the twin code <a href="http://sail.zpf.fer.hr/cres/">CRES</a>.)
+</p>
+
+<!--
+The two methods are compared and discussed in detail in:
+</p>
+
+<blockquote>
+<p>
+Hensberge H, Ilijić S, Torres K B V, 2008,
+<em>On the separation of component spectra in binary
+and higher-multiplicity stellar systems:
+bias progression and spurious patterns</em>, AA 482, 1031
+(<a href="http://adsabs.harvard.edu/abs/2008A%26A...482.1031H">ads</a>).
+</p>
+</blockquote>
+
+<p>
+Before attempting the interpretation of component spectra (output)
+please consult at least this short paper or poster:
+</p>
+
+<blockquote>
+<p>
+Ilijić S, Hensberge H, Pavlovski K, Freyhammer L M,
+2004, <em>Obtaining normalised component spectra with FDBinary</em>,
+ASP Conf Ser 318, 111
+(<a href="http://adsabs.harvard.edu/abs/2004ASPC..318..111I">ads</a>,
+<a href="papers/du04fdb.pdf">preprint</a>,
+<a href="papers/poster.pdf">poster</a>).
+</p>
+</blockquote>
+
+-->
+
+<p>
+fd3 is written in C
+and is designed as a command-line utility for a Unix-like operating system.
+It is available as the
+<a href="fd3">executable file for Linux (x86)</a>,
+or as the complete <a href="fd3.tar.gz">archive file</a>
+containing the source files and the files
+needed to reproduce the examples documented on this web page
+(if compiling fd3 from the source, do not forget to install and link the
+<a href="http://www.gnu.org/software/gsl/">GNU Scientific Library</a>).
+</p>
+
+<p>
+fd3 uses a three component hierarchical orbital model.
+Components denoted A and B
+are assumed to form a close pair in an eccentric Keplerian orbit.
+The A--B pair is assumed to be in a wide eccentric Keplerian orbit AB--C
+with the third star denoted C.
+The light-time effect in the wide orbit
+is taken care of by fd3.
+</p>
+
+<pre>
+                                                        B
+                                                       /
+                                                      /
+C -----------------------------+---------------------+ cm(AB)
+                           cm(ABC)                  /
+                                                   A
+</pre>
+
+<p>
+Please note that handling of orbital parameters
+related to apsidal motion of the A--B orbit is not fully implemented yet.
+</p>
+
+<p>
+Any subset of components A, B and C can be used.
+This includes the possibility of applying the method
+on a single, double or triple-lined systems.
+One can use tight orbit with (not yet functional) apsidal motion,
+or wide orbit with light-time effect.
+Of course, the component C can also be used
+to model any static additive features in the composite spectra.
+</p>
+
+<p>
+One data file containing the complete time sequence
+of continuum-normalised composite spectra
+uniformly (equidistantly) sampled in the logarythm of the wavelength,
+covering the whole sprctral region that was observed (reduced),
+can be used for working with fd3 in different spectral sub-regions.
+The first column this master file must contain the log-wavelength values,
+and the subsequent columns must contain the normalised flux values.
+The fd3 output files that contain model component spectra
+and residuals follow the same format.
+</p>
+
+<p>
+All other input (times and other parameters of observations,
+orbital parameters and other instructions)
+is supplied either by answering the prompts that the program prints
+on the screen, or more conveniently by feeding in a "control file".
+All times should be given in days,
+all velocities in kilometers in second
+(internally, fd3 uses c = 299800 km/s),
+and all angles (phases) in degrees.
+</p>
+
+<h2> Example: Artificial data SB2 </h2>
+
+<p>
+The file containing log-wavelengths
+and amplitudes of the artificial composite spectra is
+<a href="art_double.master.obs">art_double.master.obs</a>.
+Command line is:
+</p>
+
+<pre>
+$ ./fd3 &lt; <a href="art_double.in">art_double.in</a> &gt; <a href="art_double.out">art_double.out</a> &amp;
+</pre>
+
+<p>
+The control file <a href="art_double.in">art_double.in</a>
+has an uncomprehendible structure
+unless read in parallel with the output file
+<a href="art_double.out">art_double.out</a>.
+Output files are:
+</p>
+
+<ul>
+<li><a href="art_double.obs">art_double.obs</a>
+       (used part of composite spectra), </li>
+<li><a href="art_double.mod">art_double.mod</a>
+       (model spectra),</li>
+<li><a href="art_double.res">art_double.res</a>
+       (residuals of the fit),</li>
+<li><a href="art_double.rvs">art_double.rvs</a>
+       (radial velocities in data bin units), and</li>
+<li><a href="art_double.log">art_double.log</a> (log file).</li>
+</ul>
+
+<h2> Example: Artificial data SB1 </h2>
+
+<p>
+Input spectra: <a href="art_single.master.obs">art_single.master.obs</a>
+</p>
+
+<pre>
+$ ./fd3 &lt; <a href="art_single.in">art_single.in</a> &gt; <a href="art_single.out">art_single.out</a> &amp;
+</pre>
+
+<p>
+Output files:
+<a href="art_single.obs">art_single.obs</a>,
+<a href="art_single.mod">art_single.mod</a>,
+<a href="art_single.res">art_single.res</a>,
+<a href="art_single.rvs">art_single.rvs</a>,
+<a href="art_single.log">art_single.log</a>.
+</p>
+
+<h2> Example: Artificial data SB2 with static 3rd light </h2>
+
+<p>
+Input spectra: <a href="art_triple.master.obs">art_triple.master.obs</a>
+</p>
+
+<pre>
+$ ./fd3 &lt; <a href="art_triple.in">art_triple.in</a> &gt; <a href="art_triple.out">art_triple.out</a> &amp;
+</pre>
+
+<p>
+Output files:
+<a href="art_triple.obs">art_triple.obs</a>,
+<a href="art_triple.mod">art_triple.mod</a>,
+<a href="art_triple.res">art_triple.res</a>,
+<a href="art_triple.rvs">art_triple.rvs</a>,
+<a href="art_triple.log">art_triple.log</a>.
+</p>
+
+<h2> Example: V453 Cyg (SB2) </h2>
+
+<p>
+Here I reproduce the run on real data that is documented in
+<a href="papers/mscthesis.pdf">my Master thesis (2003)</a>,
+where v.1 of the code was used.
+The observed spectra are in
+<a href="V453_Cyg.master.obs">V453_Cyg.master.obs</a>.
+Command line is:
+</p>
+
+<pre>
+$ ./fd3 &lt; <a href="V453_Cyg.in">V453_Cyg.in</a> &gt; <a href="V453_Cyg.out">V453_Cyg.out</a> &amp;
+</pre>
+
+<p>
+Output files:
+<a href="V453_Cyg.obs">V453_Cyg.obs</a>,
+<a href="V453_Cyg.mod">V453_Cyg.mod</a>,
+<a href="V453_Cyg.res">V453_Cyg.res</a>,
+<a href="V453_Cyg.rvs">V453_Cyg.rvs</a>,
+<a href="V453_Cyg.log">V453_Cyg.log</a>.
+</p>
+
+<h2> Earlier versions of the code (FDBinary) </h2>
+
+<p>
+Versions 1 and 2 of the code were called FDBinary.
+They were in some respects more sophisticated than fd3,
+but could handle only two components.
+They also had a different, more difficult to use, user interface.
+FDBinary V.1 is described in
+<a href="papers/mscthesis.pdf">my Master thesis (2003)</a>.
+I recommend using the fd3 instead of these codes.
+</p>
+
+<h2> Literature </h2>
+
+<p>Techniques in general (biased selection):</p>
+
+<ul>
+
+<li>
+Bagnuolo W G, Gies D R, 1991,
+<em>Tomographic separation of composite spectra
+- The components of the O-star spectroscopic binary AO Cassiopeiae</em>,
+ApJ 376, 266
+(<a href="http://adsabs.harvard.edu/abs/1991ApJ...376..266B">ads</a>)
+</li>
+
+<li>
+Simon K P, Sturm E, 1994,
+<em>Disentangling of composite spectra</em>, AA 281, 286
+(<a href="http://adsabs.harvard.edu/abs/1994A%26A...281..286S">ads</a>)
+</li>
+
+<li>
+Hadrava P, 1995, <em>Orbital elements of multiple spectroscopic stars</em>,
+AAS 114, 393
+(<a href="http://adsabs.harvard.edu/abs/1995A%26AS..114..393H">ads</a>)
+</li>
+
+<li>
+Hynes R I, Maxted P F L, 1998, <em>A critique of disentangling
+as a method of deriving spectroscopic orbits</em>, AA 331, 167
+(<a href="http://adsabs.harvard.edu/abs/1998A%26A...331..167H">ads</a>)
+</li>
+
+<li>
+Ilijić S, Hensberge H, Pavlovski K, 2002,
+<em>Fourier Disentangling of Composite Spectra</em>,
+Springer LNP 573, 269
+(<a href="http://adsabs.harvard.edu/abs/2001LNP...573..269I">ads</a>,
+<a href="papers/tomography.pdf">preprint</a>)
+</li>
+
+<li>
+Ilijić S, Hensberge H, Pavlovski K, 2002,
+<em>Separation techniques for disentangling of composite spectra</em>,
+Fizika B 10, 357
+(<a href="http://adsabs.harvard.edu/abs/2002FizBe..10..357I">ads</a>,
+<!--a href="http://fizika.hfd.hr/fizika_b/bv01/b10p357.htm">fizbe</a-->
+<a href="papers/b10p357.pdf">preprint</a>)
+</li>
+
+<li>
+Ilijić S, Hensberge H, Pavlovski K, Freyhammer L M, 2004,
+<em>Obtaining normalised component spectra with FDBinary</em>,
+ASP Conf Ser 318, 111
+(<a href="http://adsabs.harvard.edu/abs/2004ASPC..318..111I">ads</a>,
+<a href="papers/du04fdb.pdf">preprint</a>,
+<a href="papers/poster.pdf">poster</a>)
+</li>
+
+<li>
+Hensberge H, 2004,
+<em>Do our spectra match the requirements for a precise analysis of SB2s?</em>
+ASP Conf Ser 318, 43
+(<a href="http://adsabs.harvard.edu/abs/2004ASPC..318...43H">ads</a>,
+<a href="papers/du04hh.pdf">preprint</a>)
+</li>
+
+<li>
+Hensberge H, Ilijić S, Torres K B V, 2008,
+<em>On the separation of component spectra in binary
+and higher-multiplicity stellar systems:
+bias progression and spurious patterns</em>, AA 482, 1031
+(<a href="http://adsabs.harvard.edu/abs/2008A%26A...482.1031H">ads</a>).
+</li>
+
+</ul>
+
+<p>FDBinary applications (possibly incomplete list):</p>
+
+<ul>
+
+<li>
+Griffin R E, 2002,
+<em>Composite Spectra. XII. ο Leonis: An Evolving Am Binary</em>,
+AJ 123, 988
+(<a href="http://adsabs.harvard.edu/abs/2002AJ....123..988G">ads</a>)
+</li>
+
+<li>
+Pavlovski K, Southworth J, 2009,
+<em>Chemical evolution of high-mass stars in close binaries
+- I. The eclipsing binary V453 Cygni</em>,
+MNRAS 394, 1519
+(<a href="http://adsabs.harvard.edu/abs/2009MNRAS.394.1519P">ads</a>)
+</li>
+
+<li>
+Pavlovski K, Tamajo E, Koubský P, Southworth J, Yang S, Kolbas V, 2009,
+<em>Chemical evolution of high-mass stars in close binaries
+- II. The evolved component of the eclipsing binary V380 Cygni</em>,
+MNRAS 400, 791
+(<a href="http://adsabs.harvard.edu/abs/2009MNRAS.400..791P">ads</a>)
+</li>
+
+</ul>
+
+<h2> Contact </h2>
+
+<p>
+Saša Ilijić,
+<a href="mailto:sasa.ilijic@fer.hr">sasa.ilijic@fer.hr</a><br/>
+Department of Applied Physics,
+<a href="http://www.fer.hr/en">FER</a>,
+University of Zagreb<br/>
+Unska 3, HR-10000 Zgreb, Croatia
+</p>
+
+<p>
+<a href="http://validator.w3.org/check/referer">
+<img src="http://www.w3.org/Icons/valid-xhtml10"
+alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+</p>
+
+</body>
+
+</html>
+

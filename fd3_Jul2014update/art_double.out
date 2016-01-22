@@ -1,0 +1,108 @@
+
+  fd3 v.3.1 (Florianapolis, 25 July 2014)
+
+  SECTION 1: LOADING OBSERVED SPECTRA
+
+  observed spectra master file = art_double.master.obs
+  loaded 8 spectra with 20 bins per spectrum
+  lnlambda range from 0.0001 to 0.002
+  rv step 29.9815 km/s per bin
+  use data from lnlambda = 0.0002
+             to lnlambda = 0.0019
+  selected 18 bins per spectrum
+
+  SECTION 2: OUTPUT FILES
+
+  output files root name = art_double
+
+  used part of observed spectra ------------> "art_double.obs"
+  model spectra ----------------------------> "art_double.mod"
+  residuals (obs. - calc.) -----------------> "art_double.res"
+  radial velocities (in bin units) ---------> "art_double.rvs"
+  optimisation log -------------------------> "art_double.log"
+
+  SECTION 3: COMPONENT SPECTRA MODELING SWITCHES (0/1)
+
+  A = 1
+  B = 1
+  C = 0
+
+  number of components to be resolved is 2
+
+  SECTION 4: DESCRIPTORS TO OBSERVED SPECTRA
+             AND LIGHT-FACTORS ASSIGNED TO COMPONENTS
+
+           t_obs     rv_corr   noise_rms      lf_A      lf_B
+           [day]      [km/s]         [1]       [1]       [1]
+
+        51.00000      0.0000      1.0000    0.8000    0.2000
+        12.08333      0.0000      1.0000    0.7500    0.2500
+        -8.75000      0.0000      1.0000    0.7500    0.2500
+        42.41667      0.0000      1.0000    0.7500    0.2500
+        69.50000      0.0000      1.0000    0.5000    0.5000
+        78.58333      0.0000      1.0000    0.7500    0.2500
+        91.75000      0.0000      1.0000    0.7500    0.2500
+        29.91667      0.0000      1.0000    0.7500    0.2500
+
+  SECTION 5: PARAMETERS OF ORBITS
+
+  wide (AB--C) orbit
+
+  period of AB--C [day] = 1 +/- 0
+  time of periast pass in AB--C [day] = 1 +/- 0
+  eccentricity of AB--C [1] = 0 +/- 0
+  periast long of AB in AB--C [deg] = 0 +/- 0
+  a sin(incl) of AB in AB--C [light-day] = 0 +/- 0
+  a sin(incl) of C in AB--C [light-day] = 0 +/- 0
+
+  tight (A--B) orbit
+
+  period A--B [day] = 1 +/- 0.001 *** free ***
+  time of periast pass in A--B [day] = 0.25 +/- 1 *** free ***
+  eccentricity of A--B [1] = 0 +/- 0.1 *** free ***
+  periast long of A in A--B [deg] = 180 +/- 180 *** free ***
+  rv semiamp of A in A--B [km/s] = 60 +/- 10 *** free ***
+  rv semiamp of B in A--B [km/s] = 120 +/- 20 *** free ***
+  periast long adv per cycle in A--B [deg] = 0 +/- 0
+
+  number of free orbital parameters is 6
+
+  SECTION 6: OPTIMISATION DETAILS
+
+  number of independent optimisation runs = 100
+  number of allowed iterations per run = 1000
+  stop when simplex shrinked by factor = 0.001
+
+  SECTION 7: OPTIMISATION
+
+  separation at the starting point:  chi2=1.37844  gof=1.00
+  converged disentangling runs reported only if chi2 decreases
+
+  irun=1  iter=451  sxshrnkf=0.001  chi2=1.12817e-11  gof=1.00
+                               period A--B = 0.999999993 day
+              time of periast pass in A--B = -0.291876758 day
+                      eccentricity of A--B = 1.0568552e-06
+                 periast long of A in A--B = 524.92427 deg
+                   rv semiamp of A in A--B = 59.9629707 km/s
+                   rv semiamp of B in A--B = 119.925935 km/s
+
+  irun=10  iter=686  sxshrnkf=0.00098  chi2=3.35013e-12  gof=1.00
+                               period A--B = 0.999999997 day
+              time of periast pass in A--B = -1.04593365 day
+                      eccentricity of A--B = 7.9508135e-07
+                 periast long of A in A--B = -106.53624 deg
+                   rv semiamp of A in A--B = 59.963054 km/s
+                   rv semiamp of B in A--B = 119.925954 km/s
+
+  irun=28  iter=734  sxshrnkf=0.00082  chi2=2.33016e-12  gof=1.00
+                               period A--B = 0.999999996 day
+              time of periast pass in A--B = 1.93154526 day
+                      eccentricity of A--B = 2.64087132e-07
+                 periast long of A in A--B = 245.356189 deg
+                   rv semiamp of A in A--B = 59.963054 km/s
+                   rv semiamp of B in A--B = 119.926058 km/s
+
+  completed 100 optimisation runs
+
+  EXITING REGULARLY
+
