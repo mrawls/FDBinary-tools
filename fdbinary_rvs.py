@@ -19,17 +19,20 @@ a plot of both RV values
 '''
 
 #bjdinfile = 'bjds_baryvels.txt'
-bjdinfile = '../../FDBinary/9246715/bjds_baryvels_apogee.txt'
-fdbinary_rvs = '../../FDBinary/9246715/apogee_trial2/chunk001.rvs'
-#real_rvs = '9246715_rvs_final_REALLY.txt'
-real_rvs = '../../FDBinary/9246715/9246715_rvs_final_apogeeonly.txt'
-period = 171.277967
-BJD0 = 2455170.514777
-gamma = -4.478                        # systemic velocity IMPORTANT !!!!!
+#bjdinfile = '../../FDBinary/9246715/bjds_baryvels_apogee.txt'
+#fdbinary_rvs = '../../FDBinary/9246715/apogee_trial2/chunk001.rvs'
+#real_rvs = '../../FDBinary/9246715/9246715_rvs_final_apogeeonly.txt'
+bjdinfile = '../../KIC_8848288/bjdfile.txt'
+fdbinary_rvs = '../../KIC_8848288/chunk001.rvs'
+real_rvs = '../../KIC_8848288/rvs_brian.txt'
+period = 5.5665 #171.277967
+BJD0 = 2455004.80104 #2455170.514777
+gamma = 0.0 #-4.478                        # systemic velocity IMPORTANT !!!!!
 c = 2.99792e5                         #km per sec
-dlogwave = 0.0000035                 # resolution in log-wave (from spectra2txt.py)
+dlogwave = 0.0000061 #0.0000035 # resolution in log-wave (from spectra2txt.py)
 dlnwave = np.log(np.power(10,dlogwave))    # resolution in ln-wave
 gridres = (np.exp(dlnwave) - 1)*c        # velocity spacing of the ln-wave grid
+print(dlogwave, dlnwave, gridres)
 
 def phasecalc(times, period, BJD0):
     phases = []
@@ -61,25 +64,27 @@ phase_fdb = phasecalc(newbjd, period, BJD0)
 # Read in the 'REAL' final RV curve from BFs or whatever
 phase_real, rv1_real, rv2_real = np.loadtxt(real_rvs, comments='#', usecols=(1,3,5), unpack=True)
 
-print(phase_fdb, rv1_fdb)
+print('phase (read-in), phase (calculated), RV1 (read-in), RV1 (FDBinary)')
+for phase_r, phase_f, rv1_r, rv1_f in zip(phase_real, phase_fdb, rv1_real, rv1_fdb):
+    print(phase_r, phase_f, rv1_r, rv1_f)
 
 # make a plot of the FDBinary RV curve, and also plot the "REAL" RV curve, plus residuals
 fig = plt.figure()
-ax1 = fig.add_subplot(2, 1, 0)
-plt.axis([0, 1, -59, 59])
+ax1 = fig.add_subplot(211)
+plt.axis([0, 1, -29, 29])
 plt.plot(phase_real, rv1_real, marker='o', color='#e34a33', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 1')
-plt.plot(phase_real, rv2_real, marker='o', color='#fdbb84', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 2')
+#plt.plot(phase_real, rv2_real, marker='o', color='#fdbb84', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 2')
 plt.plot(phase_fdb, rv1_fdb, marker='o', color='k', ms=8, ls='None', lw=1.5, label='FDBinary 1')
-plt.plot(phase_fdb, rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5, label='FDBinary 2')
+#plt.plot(phase_fdb, rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5, label='FDBinary 2')
 plt.legend(ncol=2, numpoints=1, loc=2)
 plt.xlabel('Orbital Phase')
 plt.ylabel('Radial Velocity (km s$^{-1}$)')
 
-ax2 = fig.add_subplot(2, 1, 1)
-plt.axis([0,1,-2,2])
+ax2 = fig.add_subplot(212)
+plt.axis([0,1,-3,3])
 plt.ylabel('RealRV - FDBinary (km s$^{-1}$)')
 plt.plot(phase_real, rv1_real - rv1_fdb, marker='o', color='k', ms=8, ls='None', lw=1.5)
-plt.plot(phase_real, rv2_real - rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5)
+#plt.plot(phase_real, rv2_real - rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5)
 plt.axhline(y=0, ls=':', color='k')
 
 plt.show()
