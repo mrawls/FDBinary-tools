@@ -25,11 +25,16 @@ this text file is properly formatted for use with FDBinary
 #infiles = '../../FDBinary/9246715/infiles_apogee_flat2.txt' #'infiles_shifted.txt'
 #bcvin = '../../FDBinary/9246715/bjds_baryvels_apogee.txt' #'infile_bcvs.txt'
 #outfile = '../../FDBinary/9246715/chunk_all_ln_apogee_flat.obs'
-infiles = '../../FDBinary/9246715/infiles_shifted.txt'
-bcvin = '../../FDBinary/9246715/bjds_baryvels.txt'
-outfile = '../../FDBinary/9246715/chunk_all_ln_all_bluer.obs'
-jdref0 = 2454833
-gamma = -4.48
+#infiles = '../../FDBinary/9246715/infiles_shifted.txt'
+#bcvin = '../../FDBinary/9246715/bjds_baryvels.txt'
+#outfile = '../../FDBinary/9246715/chunk_all_ln_all_bluer.obs'
+
+infiles = '../../FDBinary/7037405/infiles_fd3.txt'
+bcvin = '../../FDBinary/7037405/bjds_baryvels.txt'
+outfile = '../../FDBinary/7037405/chunk_all_ln.obs'
+
+jdref0 = 2454833.0
+gamma = -39.825 #-4.48
 isAPOGEE = False
 wavestart = 4900 #15145 #5320    # starting wavelength in Angstroms
 wavestop = 7120 #16950 #7120    # ending wavelength in Angstroms
