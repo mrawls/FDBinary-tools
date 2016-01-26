@@ -18,24 +18,32 @@ as well as SB2 (two files for two stars)
 '''
 
 ### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
-#fitsfile... yeah there isn't one...
-MakeFits = False
-fdbinarymodel = '../../KIC_8848288/allchunks.mod'
-outfile = '../../KIC_8848288/fdbinary_out.txt'
+MakeFits = True
+fitsfile = '../../RG_spectra/7037405_1/shifted_fullspec140422.0024.ec.fits'
+fdbinarymodel = '../../FDBinary/7037405/allchunks.mod'
+outfile = '../../FDBinary/7037405/fdbinary_out.txt'
+
+#fdbinarymodel = '../../KIC_8848288/allchunks.mod'
+#outfile = '../../KIC_8848288/fdbinary_out.txt'
 
 #fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
 #fdbinarymodel = '../../FDBinary/9246715/trialblue/allchunks.mod'
 #outfile = '../../FDBinary/9246715/trialblue/fdbinary_out.txt'
 
 isAPOGEE = False
-wavestart = 4500  #4900 #15145 #5320    # starting wavelength in Angstroms
-wavestop =  4580  #7120 #16950 #7120    # ending wavelength in Angstroms
+wavestart = 4900 #4500  #4900 #15145 #5320    # starting wavelength in Angstroms
+wavestop =  7120 #4580  #7120 #16950 #7120    # ending wavelength in Angstroms
 
 # New FITS files that will be created
-outfits1 = '../../KIC_8848288/FDBinary1.fits'
-outfits2 = '../../KIC_8848288/FDBinary2.fits'
-outtxt1 = '../../KIC_8848288/FDBinary1.txt'
-outtxt2 = '../../KIC_8848288/FDBinary2.txt'
+outfits1 = '../../FDBinary/7037405/FDBinaryMS.fits'
+outfits2 = '../../FDBinary/7037405/FDBinaryRG.fits'
+outtxt1 = '../../FDBinary/7037405/FDBinaryMS.txt'
+outtxt2 = '../../FDBinary/7037405/FDBinaryRG.txt'
+
+#outfits1 = '../../KIC_8848288/FDBinary1.fits'
+#outfits2 = '../../KIC_8848288/FDBinary2.fits'
+#outtxt1 = '../../KIC_8848288/FDBinary1.txt'
+#outtxt2 = '../../KIC_8848288/FDBinary2.txt'
 
 #outfits1 = '../../FDBinary/9246715/FDBinary_star1_bluer.fits'
 #outfits2 = '../../FDBinary/9246715/FDBinary_star2_bluer.fits'
@@ -56,28 +64,29 @@ fig, axMain = plt.subplots(figsize=[20, 9])
 plt.xlabel('Wavelength ($\mathrm{\AA}$)', size=24)
 plt.ylabel('Scaled flux', size=24)
 
+if MakeFits == True:
 # Read in 'raw' comparison spectrum with both stellar components
 # Also define the original wavelength scale, fitswave
-# hdu = fits.open(fitsfile)
-# head = hdu[0].header
-# if isAPOGEE == True:
-#     spec = hdu[1].data ### APOGEE
-#     spec = spec.flatten() ### APOGEE
-#     spec = spec[::-1] ### APOGEE
-#     spec = spec / np.median(spec)
-#     fitswave = hdu[4].data ### APOGEE
-#     fitswave = fitswave.flatten() ### APOGEE
-#     fitswave = fitswave[::-1] ### APOGEE
-# else:
-#     spec = hdu[0].data
-#     headerdwave = head['cdelt1']
-#     headerwavestart = head['crval1']
-#     headerwavestop = headerwavestart + headerdwave*len(spec)
-#     fitswave = np.arange(headerwavestart, headerwavestop, headerdwave)
-# if len(fitswave) != len(spec):
-#     minlength = min(len(fitswave), len(spec))
-#     fitswave = wave[0:minlength]
-#     spec = spec[0:minlength]
+    hdu = fits.open(fitsfile)
+    head = hdu[0].header
+    if isAPOGEE == True:
+        spec = hdu[1].data ### APOGEE
+        spec = spec.flatten() ### APOGEE
+        spec = spec[::-1] ### APOGEE
+        spec = spec / np.median(spec)
+        fitswave = hdu[4].data ### APOGEE
+        fitswave = fitswave.flatten() ### APOGEE
+        fitswave = fitswave[::-1] ### APOGEE
+    else:
+        spec = hdu[0].data
+        headerdwave = head['cdelt1']
+        headerwavestart = head['crval1']
+        headerwavestop = headerwavestart + headerdwave*len(spec)
+        fitswave = np.arange(headerwavestart, headerwavestop, headerdwave)
+    if len(fitswave) != len(spec):
+        minlength = min(len(fitswave), len(spec))
+        fitswave = wave[0:minlength]
+        spec = spec[0:minlength]
 
 # Read in data from FDBinary decomposed spectra
 # Interpolate this onto an evenly spaced grid in real wavelength (not lnwavelength)
@@ -153,47 +162,48 @@ file1.close()
 
 
 # Actually make a plot!
+plt.axis([wavestart, wavestop, -1, 4])
 # Three spectra: 'raw'/real one, and two extracted component model ones
-line1, = plt.plot(wave, star1+0.3, color=red, lw=1.5, label='Star 1')
+line1, = plt.plot(wave, star1-0.5, color=yel, lw=1.5, label='MS Star')
 if TwoStars == True:
-    line2, = plt.plot(wave, star2-0.6, color=yel, lw=1.5, label='Star 2') # good if flux ratio = 1
+    line2, = plt.plot(wave, star2+0.5, color=red, lw=1.5, label='RG Star') # good if flux ratio = 1
 #line1, = plt.plot(wave, star1+0.1, color=red, lw=1.5, label='Star 1')
 #line2, = plt.plot(wave, 0.25*star2+0.2, color=yel, lw=1.5, label='Star 2') # good if flux ratio = 4
 #line1, = plt.plot(wave, 0.25*star1+0.2, color=yel, lw=1.5, label='Star 2')
 #line2, = plt.plot(wave, star2+0.2, color=red, lw=1.5, label='Star 1') # good if flux ratio = 1/4 & stars switched
 
 # OPTIONAL REFERENCE SPECTRUM
-#refline, = plt.plot(fitswave, spec+1.5, color='k', lw=1.5, label='ARCES, $\phi=0.982$')
+refline, = plt.plot(fitswave, spec+2, color='k', lw=1.5, label='ARCES eclipse spectrum')
 
 # Legendary Adventures
 # Create a legend for the first line.
 if TwoStars == True:
-    first_legend = plt.legend([line1, line2], ['Star 1', 'Star 2'], loc=1, frameon=False, fontsize=22)
+    first_legend = plt.legend([line1, line2], ['MS Star', 'RG Star'], loc=1, frameon=False, fontsize=22)
 else:
     first_legend = plt.legend([line1], ['Star 1'], loc=1, frameon=False, fontsize=22)
 #first_legend = plt.legend([line2, line1], ['Star 1', 'Star 2'], loc=1, frameon=False, fontsize=22) # if stars switched
 # Add the legend manually to the current Axes.
 ax = plt.gca().add_artist(first_legend)
 # Create another legend for the second line.
-#plt.legend([refline], ['ARCES, $\phi=0.982$'], loc=2, frameon=False, fontsize=22)
+plt.legend([refline], ['ARCES eclipse spectrum'], loc=2, frameon=False, fontsize=22)
 #plt.legend([refline], ['APOGEE Obs 1'], loc=2, frameon=False, fontsize=22)
 
 # Normal legend that overlaps with stuff being plotted
 #plt.legend(ncol=2, frameon=False, loc=2, fontsize=20)
 
 ## Zoomed inset
-#axins = inset_axes(axMain, width='45%', height=2.85, loc=9)
-#axins.set_xlim(6540, 6620)
-#axins.set_ylim(-0.5, 2.7)
-#axins.plot(wave, star1+0.3, color=red, lw=1.5)
-#axins.plot(wave, star2-0.6, color=yel, lw=1.5) # good if flux ratio = 1
-##axins.plot(wave, star1+0.1, color=red, lw=1.5)
-##axins.plot(wave, 0.25*star2+0.2, color=yel, lw=1.5) # good if flux ratio = 4
-##axins.plot(wave, 0.25*star1+0.2, color=yel, lw=1.5)
-##axins.plot(wave, star2+0.2, color=red, lw=1.5) # good if flux ratio = 1/4 & stars switched
-#axins.plot(fitswave, spec+1.5, color='k', lw=1.5)
-##plt.xticks(visible=False)
-#plt.yticks(visible=False)
-#mark_inset(axMain, axins, loc1=1, loc2=3, fc='none', ec='0.75', lw=1.5)
+axins = inset_axes(axMain, width='45%', height=2.85, loc=9)
+axins.set_xlim(6540, 6620)
+axins.set_ylim(-0.5, 2.7)
+axins.plot(wave, star1-0.5, color=yel, lw=1.5)
+axins.plot(wave, star2+0.5, color=red, lw=1.5) # good if flux ratio = 1
+#axins.plot(wave, star1+0.1, color=red, lw=1.5)
+#axins.plot(wave, 0.25*star2+0.2, color=yel, lw=1.5) # good if flux ratio = 4
+#axins.plot(wave, 0.25*star1+0.2, color=yel, lw=1.5)
+#axins.plot(wave, star2+0.2, color=red, lw=1.5) # good if flux ratio = 1/4 & stars switched
+axins.plot(fitswave, spec+1.5, color='k', lw=1.5)
+#plt.xticks(visible=False)
+plt.yticks(visible=False)
+mark_inset(axMain, axins, loc1=1, loc2=3, fc='none', ec='0.75', lw=1.5)
 
 plt.show()
