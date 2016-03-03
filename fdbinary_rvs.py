@@ -26,21 +26,24 @@ a plot of both RV values is created for visual inspection
 #real_rvs = '../../FDBinary/9246715/9246715_rvs_final_apogeeonly.txt'
 
 #bjdinfile = '../../KIC_8848288/bjdfile.txt'
-#fdbinary_rvs = '../../KIC_8848288/chunk001.rvs'
-#real_rvs = '../../KIC_8848288/rvs_brian.txt'
+#fdbinary_rvs = '../../KIC_8848288/trial2_model/outfile_chunk001.rvs'
+#real_rvs = '../../KIC_8848288/trial2_model/rvs_brian.txt'
 
-bjdinfile = '../../FDBinary/7037405/bjds_baryvels.txt'
-fdbinary_rvs = '../../FDBinary/7037405/trial1/outfile_chunk001.txt.rvs'
-real_rvs = '../../FDBinary/7037405/rvs_jean_updated_withapogee.txt'
+bjdinfile =    '../../FDBinary/3955867/bjds_baryvels.txt'
+fdbinary_rvs = '../../FDBinary/3955867/trial2/outfile_chunk001.rvs'
+real_rv1s =    '../../RG_ELCmodeling/3955867/rvs_3955867_MS.txt'
+real_rv2s =    '../../RG_ELCmodeling/3955867/rvs_3955867_RG.txt'
 
-period = 207.108249334 #5.5665 #171.277967
-BJD0 = 2455091.930688586 #2455004.80104 #2455170.514777
-gamma = -39.825 #0.0 #-4.478                        # systemic velocity IMPORTANT !!!!!
+period = 33.6568484664 #5.5665 #207.108249334 #5.5665 #171.277967
+BJD0 = 127.898912689 #2455004.80104 #2455091.930688586 #2455004.80104 #2455170.514777
+gamma = 14.8138996798 #0.0 #-39.825 #0.0 #-4.478                        # systemic velocity IMPORTANT !!!!!
+
+KepTime = True # set True if you have Kepler BJDs real_rvs col 0 instead of phases in col 1
 c = 2.99792e5                         #km per sec
 dlogwave = 0.0000035 #0.0000061  # resolution in log-wave (~dwaveref calculated in spectra2txt.py)
 dlnwave = np.log(np.power(10,dlogwave))    # resolution in ln-wave
 gridres = (np.exp(dlnwave) - 1)*c        # velocity spacing of the ln-wave grid
-print(dlogwave, dlnwave, gridres)
+#print(dlogwave, dlnwave, gridres)
 
 def phasecalc(times, period, BJD0):
     phases = []
@@ -72,23 +75,67 @@ rv2_fdb = rv2_fdb * gridres + gamma
 phase_fdb = phasecalc(newbjd, period, BJD0)
 
 # Read in the 'REAL' final RV curve from BFs or whatever
-#phase_real, rv1_real, rv2_real = np.genfromtxt(real_rvs, comments='#', usecols=(1,3,5), unpack=True)
-obskeptime, rv2_real, rv1_real = np.genfromtxt(real_rvs, comments='#', usecols=(0,1,3), unpack=True)
-phase_real = phasecalc(obskeptime+2454833.0, period, BJD0)
-print(rv2_real, rv1_real)
+if KepTime == True: # pair of files with unfolded RV information, same format as ELC uses
+    print('KepTime set to True')
+    #obskeptime, rv2_real, rv1_real = np.genfromtxt(real_rvs, comments='#', usecols=(0,1,3), unpack=True)
+    obskeptime1, rv1_real = np.genfromtxt(real_rv1s, usecols=(0,1), unpack=True)
+    try: # check to see if there's a second RV curve
+        obskeptime2, rv2_real = np.genfromtxt(real_rv2s, usecols=(0,1), unpack=True)
+    except: # single file with folded RV information, same format BF_python uses
+        obskeptime2 = []; rv2_real = []
+    phase1_real = phasecalc(obskeptime1+2454833.0, period, BJD0)
+    phase2_real = phasecalc(obskeptime2+2454833.0, period, BJD0)
+else:
+    print('KepTime set to False')
+    #phase_real, rv1_real, rv2_real = np.genfromtxt(real_rvs, comments='#', usecols=(1,3,5), unpack=True)
+    phase_real, rv1_real, rv2_real = np.genfromtxt(real_rvs, comments='#', usecols=(1,2,4), unpack=True)
+    phase1_real = phase_real; phase2_real = phase_real
+#print(rv2_real, rv1_real)
 
-print('There are {0} obs from FDBinary and {1} obs from the provided RVs'.format(len(phase_fdb), len(phase_real)))
+# Make the star1 and star2 RV arrays parallel by filling the shorter one with nans
+if len(phase1_real) > len(phase2_real):
+    rv2_real = rv2_real.tolist()
+    for phase in phase1_real:
+        if phase not in phase2_real:
+            phase2_real.append(phase)
+            rv2_real.append(np.nan) 
+if len(phase1_real) < len(phase2_real):
+    rv1_real = rv1_real.tolist()
+    for phase in phase2_real:
+        if phase not in phase1_real:
+            phase1_real.append(phase)
+            rv1_real.append(np.nan)    
 
-print('phase (read-in), phase (calculated), RV1 (read-in), RV1 (FDBinary), RV2 (read-in), RV2 (FDBinary)')
-for phase_r, phase_f, rv1_r, rv1_f, rv2_r, rv2_f in zip(phase_real, phase_fdb, rv1_real, rv1_fdb, rv2_real, rv2_fdb):
-    print('{0:.4f} {1:.4f} {2:.3f} {3:.3f} {4:.3f} {5:.3f}'.format(phase_r, phase_f, rv1_r, rv1_f, rv2_r, rv2_f))
+# Make sure everything is an array so we can sort by phase
+rv1_real = np.array(rv1_real)
+rv2_real = np.array(rv2_real)
+rv1_fdb = np.array(rv1_fdb)
+rv2_fdb = np.array(rv2_fdb)
+phase1_real = np.array(phase1_real)
+phase2_real = np.array(phase2_real)
+phase_fdb = np.array(phase_fdb)
+
+# Sort everything by phase
+rv1_real = rv1_real[np.argsort(phase1_real)]
+phase1_real = phase1_real[np.argsort(phase1_real)]
+rv2_real = rv2_real[np.argsort(phase2_real)]
+phase2_real = phase2_real[np.argsort(phase2_real)]
+rv1_fdb = rv1_fdb[np.argsort(phase_fdb)]
+rv2_fdb = rv2_fdb[np.argsort(phase_fdb)]
+phase_fdb = phase_fdb[np.argsort(phase_fdb)]
+
+print('There are {0} obs from FDBinary and {1} obs from the provided RVs'.format(len(phase_fdb), len(phase1_real)))
+
+print('phase (read-in), phase (calculated), RV1 (read-in), RV1 (FDBinary), RV2 (read-in), RV2(FDBinary)')
+for phase_r, phase_f, rv1_r, rv1_f, rv2_r, rv2_f in zip(phase1_real, phase_fdb, rv1_real, rv1_fdb, rv2_real, rv2_fdb):
+    print('{0:.4f} {1:.4f} \t {2:.3f} {3:.3f} \t {4:.3f} {5:.3f}'.format(phase_r, phase_f, rv1_r, rv1_f, rv2_r, rv2_f))
 
 # make a plot of the FDBinary RV curve, and also plot the "REAL" RV curve, plus residuals
 fig = plt.figure()
 ax1 = fig.add_subplot(211)
 #plt.axis([0, 1, -29, 29])
-plt.plot(phase_real, rv1_real, marker='o', color='#e34a33', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 1')
-plt.plot(phase_real, rv2_real, marker='o', color='#fdbb84', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 2')
+plt.plot(phase1_real, rv1_real, marker='o', color='#e34a33', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 1')
+plt.plot(phase2_real, rv2_real, marker='o', color='#fdbb84', mec='k', ms=8, ls='None', lw=1.5, label='RealRV 2')
 plt.plot(phase_fdb, rv1_fdb, marker='o', color='k', ms=8, ls='None', lw=1.5, label='FDBinary 1')
 plt.plot(phase_fdb, rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5, label='FDBinary 2')
 plt.legend(ncol=2, numpoints=1, loc=2)
@@ -98,8 +145,8 @@ plt.ylabel('Radial Velocity (km s$^{-1}$)')
 ax2 = fig.add_subplot(212)
 plt.axis([0,1,-5,5])
 plt.ylabel('RealRV - FDBinary (km s$^{-1}$)')
-plt.plot(phase_real, rv1_real - rv1_fdb, marker='o', color='k', ms=8, ls='None', lw=1.5)
-plt.plot(phase_real, rv2_real - rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5)
+plt.plot(phase1_real, rv1_real - rv1_fdb, marker='o', color='k', ms=8, ls='None', lw=1.5)
+plt.plot(phase2_real, rv2_real - rv2_fdb, marker='o', color='b', ms=8, ls='None', lw=1.5)
 plt.axhline(y=0, ls=':', color='k')
 
 plt.show()
