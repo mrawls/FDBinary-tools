@@ -29,12 +29,12 @@ this text file is properly formatted for use with FDBinary
 #bcvin = '../../FDBinary/9246715/bjds_baryvels.txt'
 #outfile = '../../FDBinary/9246715/chunk_all_ln_all_bluer.obs'
 
-infiles = '../../FDBinary/7037405/infiles_fd3.txt'
-bcvin = '../../FDBinary/7037405/bjds_baryvels.txt'
-outfile = '../../FDBinary/7037405/chunk_all_ln.obs'
+infiles = '../../FDBinary/9970396/infiles_fd3.txt'
+bcvin =   '../../FDBinary/9970396/bjds_baryvels.txt'
+outfile = '../../FDBinary/9970396/chunk_all_ln.obs'
 
 jdref0 = 2454833.0
-gamma = -39.825 #-4.48
+gamma = -16.5487 #-30.5916 #-6.1507 #-103.5147 #-39.825 #14.8138996798 #-4.48
 isAPOGEE = False
 wavestart = 4900 #15145 #5320    # starting wavelength in Angstroms
 wavestop = 7120 #16950 #7120    # ending wavelength in Angstroms
@@ -150,7 +150,7 @@ if len(lnwavelist) != len(bcvs):
 print(' ')
 print('This info is for the fdbinary infile:')
 for datetime in datetimelist:
-    print(datetime.jd-jdref0, 0, 1.0, 0.5, 0.5)    # assuming light ratio = 1
+    print(datetime.jd-jdref0, 0, 1.0, 0.05, 0.95) # ADJUST LAST TWO FIGURES FOR LIGHT RATIO
 print(' ')
 print('The new ln-wavelength scale spans %.4f - %.4f with stepsize %.8f.' % (lnwaveref[0], lnwaveref[-1], dlnwave))
 print('In linear wavelengths, this is {0} - {1} with stepsize {2}.'.format(wavestart, wavestop, dwaveref))
