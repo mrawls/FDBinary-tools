@@ -25,19 +25,25 @@ this text file is properly formatted for use with FDBinary
 #infiles = '../../FDBinary/9246715/infiles_apogee_flat2.txt' #'infiles_shifted.txt'
 #bcvin = '../../FDBinary/9246715/bjds_baryvels_apogee.txt' #'infile_bcvs.txt'
 #outfile = '../../FDBinary/9246715/chunk_all_ln_apogee_flat.obs'
-#infiles = '../../FDBinary/9246715/infiles_shifted.txt'
-#bcvin = '../../FDBinary/9246715/bjds_baryvels.txt'
-#outfile = '../../FDBinary/9246715/chunk_all_ln_all_bluer.obs'
+infiles = '../../FDBinary/9246715/infiles_shifted.txt'
+bcvin = '../../FDBinary/9246715/bjds_baryvels.txt'
+outfile = '../../FDBinary/9246715/chunk_all_ln_all_4400-8700.obs'
 
-infiles = '../../FDBinary/9970396/infiles_fd3.txt'
-bcvin =   '../../FDBinary/9970396/bjds_baryvels.txt'
-outfile = '../../FDBinary/9970396/chunk_all_ln.obs'
+#infiles = '../../FDBinary/9291629/infiles_fd3.txt'
+#bcvin =   '../../FDBinary/9291629/bjds_baryvels.txt'
+#outfile = '../../FDBinary/9291629/chunk_all_ln_8550.obs'
 
-jdref0 = 2454833.0
-gamma = -16.5487 #-30.5916 #-6.1507 #-103.5147 #-39.825 #14.8138996798 #-4.48
+jdref0 = 2454833.0 # SAME FOR ALL (Kepler zeropoint)
+gamma = -4.48 # 9246715
+#gamma = -16.5427 #9970396
+#gamma = -30.662 #9291629
+#gamma = -6.1507 #5786154
+#gamma = -103.5147 #10001167
+#gamma = -39.285 #7037405 
+#gamma = 14.8138996798 #3955867
 isAPOGEE = False
-wavestart = 4900 #15145 #5320    # starting wavelength in Angstroms
-wavestop = 7120 #16950 #7120    # ending wavelength in Angstroms
+wavestart = 4400 #15145 #5320    # starting wavelength in Angstroms
+wavestop = 8700 #16950 #7120    # ending wavelength in Angstroms
 #### EDIT THIS STUFF EACH TIME YOU RUN THIS PROGRAM!!! ####    
 
 c = 2.99792e5 # km/sec
@@ -171,4 +177,4 @@ print('Result printed to %s' % outfile)
 print('The next thing to do is run fdbinary!')
 print('(You may need to \'make_fdbinary_infile.py\' first)')
 print('Here is what to type to run fdbinary once those files exist:')
-print('for file in infile_chunk*.txt; do ./fdbinary < "$file"; done; rm allchunks.mod; cat chunk*.mod > allchunks.mod; rm allchunks.rvs; cat chunk*.rvs > allchunks.rvs')
+print('for file in infile_chunk*.txt; do ./fd3 < "$file"; done; rm allchunks.mod; cat outfile_chunk*.mod > allchunks.mod; rm allchunks.rvs; cat outfile_chunk*.rvs > allchunks.rvs')
