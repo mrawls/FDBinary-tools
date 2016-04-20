@@ -19,68 +19,69 @@ as well as SB2 (two files for two stars)
 
 ### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
 MakeFits = True
-PlotStar1 = False # if your files have 2 stars, choose whether to plot both or just one
+PlotStar1 = True # if your files have 2 stars, choose whether to plot both or just one
 PlotStar2 = True
 PlotInset = True
 isAPOGEE = False
-wavestart = 4905 #4900 #4410  #4500  #4900 #15145 #5320    # starting wavelength in Angstroms
-wavestop =  7000 #7120 #5850  #4580  #7120 #16950 #7120    # ending wavelength in Angstroms
+# these values are for the outfiles, not the plots
+wavestart = 4400 #4905 #4900 #4410  #4500  #4900 #15145 #5320    # starting wavelength in Angstroms
+wavestop =  8700 #8550 #7120 #5850  #4580  #7120 #16950 #7120    # ending wavelength in Angstroms
 
 #####
 
 # 9291629
 #fitsfile = '../../RG_spectra/9291629/s_lspec130902.0030.ec.fits'
-#fdbinarymodel = '../../FDBinary/9291629/trial2/allchunks.mod'
-#outfile =       '../../FDBinary/9291629/trial2/fdbinary_out.txt'
-#outfits1 =      '../../FDBinary/9291629/FDBinaryMS_9291629v2.fits'
-#outfits2 =      '../../FDBinary/9291629/FDBinaryRG_9291629v2.fits'
-#outtxt1 =       '../../FDBinary/9291629/FDBinaryMS_9291629v2.txt'
-#outtxt2 =       '../../FDBinary/9291629/FDBinaryRG_9291629v2.txt'
+#fdbinarymodel = '../../FDBinary/9291629/trial4/allchunks.mod'
+#outfile =       '../../FDBinary/9291629/trial4/fdbinary_out.txt'
+#outfits1 =      '../../FDBinary/9291629/FDBinaryMS_9291629v4.fits'
+#outfits2 =      '../../FDBinary/9291629/FDBinaryRG_9291629v4.fits'
+#outtxt1 =       '../../FDBinary/9291629/FDBinaryMS_9291629v4.txt'
+#outtxt2 =       '../../FDBinary/9291629/FDBinaryRG_9291629v4.txt'
 
 # 3955867
 #fitsfile = '../../RG_spectra/3955867/s_lspec150506.0023.ec.fits'
-#fdbinarymodel = '../../FDBinary/3955867/trial3/allchunks.mod'
-#outfile =       '../../FDBinary/3955867/trial3/fdbinary_out.txt'
-#outfits1 =      '../../FDBinary/3955867/FDBinaryMS_3955867v3.fits'
-#outfits2 =      '../../FDBinary/3955867/FDBinaryRG_3955867v3.fits'
-#outtxt1 =       '../../FDBinary/3955867/FDBinaryMS_3955867v3.txt'
-#outtxt2 =       '../../FDBinary/3955867/FDBinaryRG_3955867v3.txt'
+#fdbinarymodel = '../../FDBinary/3955867/trial4/allchunks.mod'
+#outfile =       '../../FDBinary/3955867/trial4/fdbinary_out.txt'
+#outfits1 =      '../../FDBinary/3955867/FDBinaryMS_3955867v4.fits'
+#outfits2 =      '../../FDBinary/3955867/FDBinaryRG_3955867v4.fits'
+#outtxt1 =       '../../FDBinary/3955867/FDBinaryMS_3955867v4.txt'
+#outtxt2 =       '../../FDBinary/3955867/FDBinaryRG_3955867v4.txt'
 
 # 10001167
 #fitsfile = '../../RG_spectra/10001167/s_lspec130420.0001.ec.fits'
-#fdbinarymodel = '../../FDBinary/10001167/trial2/allchunks.mod'
-#outfile =       '../../FDBinary/10001167/trial2/fdbinary_out.txt'
-#outfits1 =      '../../FDBinary/10001167/FDBinaryMS_10001167v2.fits'
-#outfits2 =      '../../FDBinary/10001167/FDBinaryRG_10001167v2.fits'
-#outtxt1 =       '../../FDBinary/10001167/FDBinaryMS_10001167v2.txt'
-#outtxt2 =       '../../FDBinary/10001167/FDBinaryRG_10001167v2.txt'
+#fdbinarymodel = '../../FDBinary/10001167/trial3/allchunks.mod'
+#outfile =       '../../FDBinary/10001167/trial3/fdbinary_out.txt'
+#outfits1 =      '../../FDBinary/10001167/FDBinaryMS_10001167v3.fits'
+#outfits2 =      '../../FDBinary/10001167/FDBinaryRG_10001167v3.fits'
+#outtxt1 =       '../../FDBinary/10001167/FDBinaryMS_10001167v3.txt'
+#outtxt2 =       '../../FDBinary/10001167/FDBinaryRG_10001167v3.txt'
 
 # 5786154
 #fitsfile = '../../RG_spectra/5786154_1/s_lspec141101.0025.ec.fits'
-#fdbinarymodel = '../../FDBinary/5786154/trial2/allchunks.mod'
-#outfile =       '../../FDBinary/5786154/trial2/fdbinary_out.txt'
-#outfits1 =      '../../FDBinary/5786154/FDBinaryMS_5786154v2.fits'
-#outfits2 =      '../../FDBinary/5786154/FDBinaryRG_5786154v2.fits'
-#outtxt1 =       '../../FDBinary/5786154/FDBinaryMS_5786154v2.txt'
-#outtxt2 =       '../../FDBinary/5786154/FDBinaryRG_5786154v2.txt'
+#fdbinarymodel = '../../FDBinary/5786154/trial3/allchunks.mod'
+#outfile =       '../../FDBinary/5786154/trial3/fdbinary_out.txt'
+#outfits1 =      '../../FDBinary/5786154/FDBinaryMS_5786154v3.fits'
+#outfits2 =      '../../FDBinary/5786154/FDBinaryRG_5786154v3.fits'
+#outtxt1 =       '../../FDBinary/5786154/FDBinaryMS_5786154v3.txt'
+#outtxt2 =       '../../FDBinary/5786154/FDBinaryRG_5786154v3.txt'
 
 # 7037405
 #fitsfile =      '../../FDBinary/7037405/trial3/fullclean140422.0024.ec.fits'
-#fdbinarymodel = '../../FDBinary/7037405/trial3/allchunks.mod'
-#outfile =       '../../FDBinary/7037405/trial3/fdbinary_out.txt'
-#outfits1 =      '../../FDBinary/7037405/FDBinaryMS_7037405v3.fits'
-#outfits2 =      '../../FDBinary/7037405/FDBinaryRG_7037405v3.fits'
-#outtxt1 =       '../../FDBinary/7037405/FDBinaryMS_7037405v3.txt'
-#outtxt2 =       '../../FDBinary/7037405/FDBinaryRG_7037405v3.txt'
+#fdbinarymodel = '../../FDBinary/7037405/trial4/allchunks.mod'
+#outfile =       '../../FDBinary/7037405/trial4/fdbinary_out.txt'
+#outfits1 =      '../../FDBinary/7037405/FDBinaryMS_7037405v4.fits'
+#outfits2 =      '../../FDBinary/7037405/FDBinaryRG_7037405v4.fits'
+#outtxt1 =       '../../FDBinary/7037405/FDBinaryMS_7037405v4.txt'
+#outtxt2 =       '../../FDBinary/7037405/FDBinaryRG_7037405v4.txt'
 
-# 9970396 NEEDS DOING
-fitsfile = '../../RG_spectra/9970396/fullspec151025.0025.ec.fits'
-fdbinarymodel = '../../FDBinary/9970396/trial2/allchunks.mod'
-outfile =       '../../FDBinary/9970396/trial2/fdbinary_out.txt'
-outfits1 =      '../../FDBinary/9970396/FDBinaryMS_9970396v2.fits'
-outfits2 =      '../../FDBinary/9970396/FDBinaryRG_9970396v2.fits'
-outtxt1 =       '../../FDBinary/9970396/FDBinaryMS_9970396v2.txt'
-outtxt2 =       '../../FDBinary/9970396/FDBinaryRG_9970396v2.txt'
+# 9970396
+#fitsfile = '../../RG_spectra/9970396/fullspec151025.0025.ec.fits'
+#fdbinarymodel = '../../FDBinary/9970396/trial3/allchunks.mod'
+#outfile =       '../../FDBinary/9970396/trial3/fdbinary_out.txt'
+#outfits1 =      '../../FDBinary/9970396/FDBinaryMS_9970396v3.fits'
+#outfits2 =      '../../FDBinary/9970396/FDBinaryRG_9970396v3.fits'
+#outtxt1 =       '../../FDBinary/9970396/FDBinaryMS_9970396v3.txt'
+#outtxt2 =       '../../FDBinary/9970396/FDBinaryRG_9970396v3.txt'
 
 #####
 
@@ -91,9 +92,13 @@ outtxt2 =       '../../FDBinary/9970396/FDBinaryRG_9970396v2.txt'
 #outtxt2 = '../../KIC_8848288/trial2_model/FDBinary2.txt'
 
 # 9246715
-#fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
-#fdbinarymodel = '../../FDBinary/9246715/trialblue/allchunks.mod'
-#outfile = '../../FDBinary/9246715/trialblue/fdbinary_out.txt'
+fitsfile = '../../TelFit/9246715_telfit/s_lspec130902.0020.ec.fits' # observed FITS spectrum to plot in comparison
+fdbinarymodel = '../../FDBinary/9246715/trial_linelist1/allchunks.mod'
+outfile =       '../../FDBinary/9246715/trial_linelist1/fdbinary_out.txt'
+outfits1 =      '../../FDBinary/9246715/FDBinary_star1_linelist1.fits'
+outfits2 =      '../../FDBinary/9246715/FDBinary_star2_linelist1.fits'
+outtxt1 =       '../../FDBinary/9246715/FDBinary_star1_linelist1.txt'
+outtxt2 =       '../../FDBinary/9246715/FDBinary_star2_linelist1.txt'
 
 ### IMPORTANT INFO YOU MUST SPECIFY CORRECTLY !!! ###
 

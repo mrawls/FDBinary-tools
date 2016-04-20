@@ -29,14 +29,18 @@ a plot of both RV values is created for visual inspection
 #fdbinary_rvs = '../../KIC_8848288/trial2_model/outfile_chunk001.rvs'
 #real_rvs = '../../KIC_8848288/trial2_model/rvs_brian.txt'
 
-bjdinfile =    '../../FDBinary/3955867/bjds_baryvels.txt'
-fdbinary_rvs = '../../FDBinary/3955867/trial2/outfile_chunk001.rvs'
-real_rv1s =    '../../RG_ELCmodeling/3955867/rvs_3955867_MS.txt'
-real_rv2s =    '../../RG_ELCmodeling/3955867/rvs_3955867_RG.txt'
+bjdinfile =    '../../FDBinary/9291629/bjds_baryvels.txt'
+fdbinary_rvs = '../../FDBinary/9291629/trial3/outfile_chunk001.rvs'
+real_rv1s =    '../../RG_ELCmodeling/9291629/rvs_KIC_9291629_MS.txt'
+real_rv2s =    '../../RG_ELCmodeling/9291629/rvs_KIC_9291629_RG.txt'
 
-period = 33.6568484664 #5.5665 #207.108249334 #5.5665 #171.277967
-BJD0 = 127.898912689 #2455004.80104 #2455091.930688586 #2455004.80104 #2455170.514777
-gamma = 14.8138996798 #0.0 #-39.825 #0.0 #-4.478                        # systemic velocity IMPORTANT !!!!!
+# 9291629
+period = 20.686424; BJD0 = 133.8914
+gamma = -30.4775
+
+# 3955867
+#period = 33.65685; BJD0 = 127.8989
+#gamma = 14.8138996798      # systemic velocity IMPORTANT !!!!!
 
 KepTime = True # set True if you have Kepler BJDs real_rvs col 0 instead of phases in col 1
 c = 2.99792e5                         #km per sec
